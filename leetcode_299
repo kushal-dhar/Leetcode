@@ -1,0 +1,27 @@
+class Solution(object):
+    def getHint(self, secret, guess):
+        """
+        :type secret: str
+        :type guess: str
+        :rtype: str
+        """
+        if not secret or not guess:
+            return "0A0B"
+        bull = 0
+        cow = 0
+        size = len(guess)
+        secretdic = collections.defaultdict(int)
+        guessdic = collections.defaultdict(int)
+        
+        for i in range(size):
+            if guess[i] == secret[i]:
+                bull += 1
+            else:
+                secretdic[secret[i]] += 1
+                guessdic[guess[i]] += 1
+        
+        for key in guessdic:
+            if key in secretdic:
+                cow += min(guessdic[key], secretdic[key])
+        
+        return str(bull) + "A" + str(cow) + "B"
