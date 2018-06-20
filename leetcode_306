@@ -1,0 +1,29 @@
+class Solution(object):
+    def isAdditiveNumber(self, num):
+        """
+        :type num: str
+        :rtype: bool
+        """
+        size = len(num)
+        if size < 3:
+            return False
+        
+        for i in range(size/2):
+            for j in range(i+1, size):
+                first = int(num[:i+1])
+                second = int(num[i+1:j+1])
+                if num[j] == 0:
+                    break
+                if self.checkfib(first, second, num, size) == num:
+                    return True
+        return False
+                
+        
+    def checkfib(self, first, second, nums, size):
+        third = str(first) + str(second)
+        if len(third) == size:
+            return ""
+        while len(third) < size:
+            third += str(first+second)
+            first, second = second, first+second
+        return third
