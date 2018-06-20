@@ -1,0 +1,24 @@
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        # https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/discuss/75930/Very-Easy-to-Understand-One-Pass-O(n)-Solution-with-No-Extra-Space
+        size = len(prices)
+        if size < 2:
+            return 0
+        
+        has0_doNothing = 0
+        has0_buy = -prices[0]
+        has1_doNothing = -prices[0]
+        has1_sell = 0
+        
+        for i in range(1, size):
+            has1_doNothing = has1_doNothing if has1_doNothing > has0_buy else has0_buy
+            has0_buy = -prices[i] + has0_doNothing
+            has0_doNothing = has0_doNothing if has0_doNothing > has1_sell else has1_sell
+            has1_sell = prices[i] + has1_doNothing
+            
+        return has1_sell if has1_sell > has0_doNothing else has0_doNothing
+        
