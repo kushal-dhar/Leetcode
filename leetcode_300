@@ -1,0 +1,20 @@
+class Solution(object):
+    def lengthOfLIS(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        size = len(nums)
+        dp = [0 for i in range(size)]
+        
+        for i in range(size):
+            maxValue = 0
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    maxValue = max(maxValue, dp[j])
+            dp[i] = maxValue + 1
+        
+        return max(dp)
+            
