@@ -1,0 +1,38 @@
+class NumMatrix(object):
+
+    def __init__(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        """
+        self.matrixCopy = [row[:] for row in matrix]
+        for i in range(len(matrix)):
+            total = 0
+            for j in range(len(matrix[0])):
+                total += matrix[i][j]
+                self.matrixCopy[i][j] = total
+        print self.matrixCopy
+        return
+        
+
+    def sumRegion(self, row1, col1, row2, col2):
+        """
+        :type row1: int
+        :type col1: int
+        :type row2: int
+        :type col2: int
+        :rtype: int
+        """
+        total = 0
+        for i in range(row1, row2+1):
+            if col1 > 0:
+                total += self.matrixCopy[i][col2] - self.matrixCopy[i][col1-1]
+            else:
+                total += self.matrixCopy[i][col2]
+        
+        return total
+        
+
+
+# Your NumMatrix object will be instantiated and called as such:
+# obj = NumMatrix(matrix)
+# param_1 = obj.sumRegion(row1,col1,row2,col2)
