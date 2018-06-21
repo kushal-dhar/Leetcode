@@ -1,0 +1,25 @@
+class Solution(object):
+    def maxSubArrayLen(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        
+        total = 0
+        wanted = 0
+        count = 0
+        dic = collections.defaultdict(int)
+        dic[0] = 0
+        
+        for i, num in enumerate(nums):
+            total += num
+            wanted = total - k
+            if wanted in dic:
+                count = max(count, i+1-dic[wanted])
+            if total not in dic:
+                dic[total] = i+1
+        return count
+        
