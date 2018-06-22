@@ -1,0 +1,35 @@
+class Solution(object):
+    def isValidSerialization(self, preorder):
+        """
+        :type preorder: str
+        :rtype: bool
+        """
+        preorder = preorder.split(',')
+        stack = []
+        prev = None
+        i = 0
+        
+        while i < len(preorder):
+            val = preorder[i]
+            if val != '#':
+                stack.append(val)
+                i += 1
+            else:
+                if stack:
+                    while stack and stack[-1] == '#':
+                        stack.pop()
+                        if stack:
+                            stack.pop()
+                        else:
+                            return False
+                    stack.append(val)
+                    i += 1
+                else:
+                    stack.append(val)
+                    i += 1
+                    
+        if len(stack) == 1 and stack[-1] == '#':
+            return True
+        return False
+                
+        
