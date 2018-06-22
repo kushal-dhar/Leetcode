@@ -1,0 +1,21 @@
+class Solution(object):
+    def increasingTriplet(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        if not nums:
+            return False
+        
+        minValue = sys.maxint
+        secondMin = sys.maxint
+        
+        for num in nums:
+            if num <= minValue:
+                minValue = num
+            elif num <= secondMin:
+                secondMin = num
+            else:
+                return True
+        return False
+            
