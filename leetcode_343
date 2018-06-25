@@ -4,22 +4,15 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        dic = collections.defaultdict(int)
-        dic[2] = 1
-        dic[3] = 2
-
-        return self.dfs(n, dic, 1)
+        dp = [0 for i in range(n+1)]
+        dp[0] = 1
         
-    def dfs(self, n, dic, prod):
-        if n in dic:
-            if dic[n] > n:
-                return prod * dic[n]
-            return prod * n
-        
-        maxVal = prod
+        maxVal = 0
         for i in range(1, n):
-            temp = prod * i
-            maxVal = max(maxVal, self.dfs(n-i, dic, temp))
-            
+            for j in range(i, n+1):
+                dp[j] = max(dp[j], dp[j-i]*i)
+                if j == n:
+                    maxVal = max(maxVal, dp[j])
+                    
         return maxVal
     
