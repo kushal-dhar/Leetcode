@@ -1,0 +1,29 @@
+class Solution(object):
+    def isReflected(self, points):
+        """
+        :type points: List[List[int]]
+        :rtype: bool
+        """
+        if not points:
+            return True
+        dic = collections.defaultdict(list)
+        sumX = 0
+        uniqueValues = 0
+        
+        for point in points:
+            if point[0] not in dic[point[1]]:
+                dic[point[1]].append(point[0])
+                sumX += point[0]
+                uniqueValues += 1
+                    
+        avgX = float(sumX) / uniqueValues
+        for key in dic:
+            xValues = list(dic[key])
+            xValues.sort()
+            i, j = 0, len(xValues)-1
+            while i <= j:
+                if xValues[j] - avgX != avgX - xValues[i]:
+                    return False
+                i += 1
+                j -= 1
+        return True
