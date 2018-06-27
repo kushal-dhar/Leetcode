@@ -1,0 +1,70 @@
+class Twitter(object):
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.posts = collections.defaultdict(list)
+        self.follows = collections.defaultdict(list)
+        self.counter = 0
+        
+
+    def postTweet(self, userId, tweetId):
+        """
+        Compose a new tweet.
+        :type userId: int
+        :type tweetId: int
+        :rtype: void
+        """
+        self.posts[userId].append([tweetId, self.counter])
+        self.counter += 1
+        
+
+    def getNewsFeed(self, userId):
+        """
+        Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.
+        :type userId: int
+        :rtype: List[int]
+        """
+        res = self.posts[userId][:]
+        for followee in self.follows[userId]:
+            res.extend(self.posts[followee])
+        res.sort(key=lambda x:x[1], reverse=True)
+        
+        result = []
+        for val in res:
+            result.append(val[0])
+        return result[:10]
+        
+
+    def follow(self, followerId, followeeId):
+        """
+        Follower follows a followee. If the operation is invalid, it should be a no-op.
+        :type followerId: int
+        :type followeeId: int
+        :rtype: void
+        """
+        if followeeId != followerId and followeeId not in self.follows[followerId]:
+            self.follows[followerId].append(followeeId)
+        return
+        
+
+    def unfollow(self, followerId, followeeId):
+        """
+        Follower unfollows a followee. If the operation is invalid, it should be a no-op.
+        :type followerId: int
+        :type followeeId: int
+        :rtype: void
+        """
+        if followeeId in self.follows[followerId]:
+            self.follows[followerId].remove(followeeId)
+        return
+        
+
+
+# Your Twitter object will be instantiated and called as such:
+# obj = Twitter()
+# obj.postTweet(userId,tweetId)
+# param_2 = obj.getNewsFeed(userId)
+# obj.follow(followerId,followeeId)
+# obj.unfollow(followerId,followeeId)
