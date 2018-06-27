@@ -1,0 +1,28 @@
+class Solution(object):
+    def canMeasureWater(self, x, y, z):
+        """
+        :type x: int
+        :type y: int
+        :type z: int
+        :rtype: bool
+        """
+        # https://www.geeksforgeeks.org/two-water-jug-puzzle/
+        if z == 0:
+            return True
+        if z > x+y:
+            return False
+        if y > x:
+            x, y = y, x
+            
+        val = self.gcd(x,y)
+        if val == 0 or z % val != 0:
+            return False
+        return True
+    
+    
+    def gcd(self, x, y): 
+        if y == 0:
+            return x
+        return self.gcd(y, x%y)
+        
+        
