@@ -1,0 +1,38 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def plusOne(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if not head:
+            return None
+        
+        isCarry = self.addOne(head)
+        if isCarry:
+            temp = ListNode(1)
+            temp.next = head
+            return temp
+        return head
+        
+    def addOne(self, curr):
+        if curr.next == None:
+            curr.val += 1
+            if curr.val >= 10:
+                curr.val = 0
+                return True
+            return False
+        
+        isCarry = self.addOne(curr.next)
+        if isCarry:
+            curr.val += 1
+            if curr.val >= 10:
+                curr.val = 0
+                return True
+        return False
+        
