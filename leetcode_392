@@ -6,9 +6,8 @@ class Solution(object):
         :rtype: bool
         """
         while s:
-            if s[0] in t:
-                pos = t.index(s[0])
-            else:
+            pos = t.find(s[0])
+            if pos == -1:
                 return False
             t = t[pos+1:]
             s = s[1:]
