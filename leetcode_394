@@ -1,0 +1,54 @@
+class Solution(object):
+    def decodeString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        res = ''
+        size = len(s)
+        pos = 0
+        value = 0
+        while pos < size:
+            char = s[pos]
+            if char.isdigit():
+                value *= 10
+                value += int(char)
+            elif char.isalpha():
+                res += char
+            elif char == ']':
+                pos += 1
+                value = 0
+                continue
+            else:
+                temp, shift = self.decode(s[pos+1:])
+                res += value * temp
+                value = 0
+                pos += shift
+            pos += 1
+        return res
+    
+    def decode(self, s):
+        if not s:
+            return ''
+        res = ''
+        size = len(s)
+        pos = 0
+        value = 0
+        while pos < size:
+            char = s[pos]
+            if char.isdigit():
+                value *= 10
+                value += int(char)
+            elif char.isalpha():
+                res += char
+            elif char == ']':
+                pos += 1
+                return res, pos
+            else:
+                temp, shift = self.decode(s[pos+1:])
+                res += value * temp
+                value = 0
+                pos += shift
+            pos += 1
+        return res, pos
+        
