@@ -1,0 +1,32 @@
+class Solution(object):
+    def calcEquation(self, equations, values, queries):
+        """
+        :type equations: List[List[str]]
+        :type values: List[float]
+        :type queries: List[List[str]]
+        :rtype: List[float]
+        """
+        dic = collections.defaultdict(list)
+        pos = 0
+        for equation in equations:
+            dic[equation[0]].append((equation[1], values[pos]))
+            dic[equation[1]].append((equation[0], 1 / values[pos]))
+            pos += 1
+        
+        res = []
+        for query in queries:
+            res.append(self.dfs(query[0], query[1], dic, [query[0]]))
+        return res
+    
+    def dfs(self, start, end, dic, visited):
+        if start not in dic:
+            return -1.0
+        
+        for curr in dic[start]:
+            if curr[0] == end:
+                return curr[1]
+            if curr[0] not in visited:
+                val = self.dfs(curr[0], end, dic, visited+[curr[0]])
+                if val != -1.0:
+                    return curr[1] * val
+        return -1.0
