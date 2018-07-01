@@ -1,0 +1,27 @@
+class Solution(object):
+    def maxRotateFunction(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        # https://discuss.leetcode.com/topic/107794/c-9ms-solution-with-concise-explanation
+        size = len(A)
+        if size == 0:
+            return 0
+        total = sum(A)
+        i, j = 0, size - 1
+        maxValue = -1 * sys.maxint
+        prevSum = 0
+        
+        for i, num in enumerate(A):
+            prevSum += i * num
+        
+        i = 0
+        while i < size:
+            prevSum = prevSum + (total - (size*A[j]))
+            j -= 1
+            maxValue = max(maxValue, prevSum)
+            i += 1
+        
+        return maxValue
+                                 
