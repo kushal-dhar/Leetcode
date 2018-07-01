@@ -1,0 +1,33 @@
+class Solution(object):
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        if not s:
+            return ''
+        size = len(s)
+        self.maxString = s[0]
+        for i in range(1, size):
+            self.dfs(s, i, True)
+            self.dfs(s, i, False)
+        return self.maxString
+    
+    def dfs(self, string, pos, considerPos):
+        size = len(string)
+        if considerPos:
+            i, j = pos-1, pos
+        else:
+            i, j = pos-1, pos+1
+        
+        while i >= 0 and j < size:
+            if string[i] != string[j]:
+                break
+            else:
+                i -= 1
+                j += 1
+        
+        if (j-1)-i > len(self.maxString):
+            self.maxString = string[i+1:j]
+        return
+        
