@@ -1,0 +1,24 @@
+class Solution(object):
+    def letterCombinations(self, digits):
+        """
+        :type digits: str
+        :rtype: List[str]
+        """
+        if not digits:
+            return []
+        dic = {'2':'abc','3':'def','4':'ghi','5':'jkl','6':'mno','7':'pqrs','8':'tuv','9':'wxyz'}
+        size = len(digits)
+        res = []
+        
+        self.dfs(digits, 0, size, dic, res, '')
+        return res
+    
+    def dfs(self, digits, pos, size, dic, res, temp):
+        if pos == size:
+            res.append(temp)
+            return
+        
+        for j in dic[digits[pos]]:
+            self.dfs(digits, pos+1, size, dic, res, temp+j)
+        return
+        
