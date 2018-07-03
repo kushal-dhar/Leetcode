@@ -1,0 +1,25 @@
+class Solution(object):
+    def permute(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        if not nums:
+            return []
+        
+        size = len(nums)
+        res = []
+        visited = []
+        self.dfs(nums, [], res, 0, size, visited)
+        return res
+    
+    def dfs(self, nums, temp, res, count, size, visited):
+        if count == size:
+            res.append(temp)
+            return
+        
+        for i in range(size):
+            if i not in visited:
+                self.dfs(nums, temp+[nums[i]], res, count+1, size, visited+[i])
+        return
+        
