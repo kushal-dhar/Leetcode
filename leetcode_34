@@ -1,0 +1,34 @@
+class Solution(object):
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        size = len(nums)
+        left = 0
+        right = size-1
+        res = [-1, -1]
+        
+        self.dfs(nums, left, right, size, target, res)
+        return res
+    
+    def dfs(self, nums, left, right, size, target, res):
+        if left > right:
+            return
+        
+        mid = (left + right)/2
+        if nums[mid] == target:
+            if (mid > 0 and nums[mid] != nums[mid-1]) or (mid == 0):
+                res[0] = mid
+            if (mid < size-1 and nums[mid] != nums[mid+1]) or (mid == size-1):
+                res[1] = mid
+
+        if nums[mid] <= target:
+            self.dfs(nums, mid+1, right, size, target, res)
+        if nums[mid] >= target:
+            self.dfs(nums, left, mid-1, size, target, res)
+        return
+    
+                
+            
