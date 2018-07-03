@@ -1,0 +1,25 @@
+class Solution(object):
+    def getPermutation(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: str
+        """
+        k -= 1
+        nums = [i for i in range(1,n+1)]
+        res = ''
+        
+        while n > 0:
+            fact = 1
+            i = 1
+            while i < n:
+                fact *= i
+                i += 1
+                
+            pos = k / fact
+            res += str(nums[pos])
+            nums.pop(pos)
+            k = k % fact
+            n -= 1
+        
+        return res
