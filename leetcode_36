@@ -1,0 +1,42 @@
+class Solution(object):
+    def isValidSudoku(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: bool
+        """
+        row = len(board)
+        if row == 0:
+            return True
+        col = len(board[0])
+        
+        for i in range(row):
+            for j in range(col):
+                if board[i][j] != '.':
+                    if not self.isValid(board, i, j, row, col):
+                        return False
+        
+        return True
+    
+    def isValid(self, board, rowPos, colPos, row, col):
+        if rowPos >= row or colPos >= col:
+            return True
+        
+        rowStart = (rowPos/3)*3
+        colStart = (colPos/3)*3
+        
+        for i in range(rowStart, rowStart+3):
+            for j in range(colStart, colStart+3):
+                if i != rowPos and j != colPos:
+                    if board[i][j] == board[rowPos][colPos]:
+                        return False
+                    
+        for i in range(row):
+            if i != rowPos and board[i][colPos] == board[rowPos][colPos]:
+                return False
+            
+        for i in range(col):
+            if i != colPos and board[rowPos][i] == board[rowPos][colPos]:
+                return False
+            
+        return True
+        
