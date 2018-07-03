@@ -1,0 +1,33 @@
+class Solution(object):
+    def combinationSum2(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        if not candidates:
+            return []
+        
+        res = []
+        size = len(candidates)
+        candidates.sort()
+        self.dfs(candidates, [], res, target, 0, size)
+        return res
+    
+    
+    def dfs(self, candidates, temp, res, target, pos, size):
+        if pos >= candidates:
+            return
+        
+        if target == 0:
+            res.append(temp)
+            return
+        
+        while pos < size:
+            if candidates[pos] <= target:
+                self.dfs(candidates, temp+[candidates[pos]], res, target-candidates[pos], pos+1, size)
+            pos += 1
+            while pos < size and candidates[pos] == candidates[pos-1]:
+                pos += 1
+        return
+        
