@@ -1,0 +1,17 @@
+class Solution(object):
+    def multiply(self, num1, num2):
+        """
+        :type num1: str
+        :type num2: str
+        :rtype: str
+        """
+        res = 0
+        power = 1
+        for i in num1[::-1]:
+            temp_pow = power
+            for j in num2[::-1]:
+                res += int(i) * int(j) * temp_pow
+                temp_pow *= 10
+            power *= 10
+                
+        return str(res)
