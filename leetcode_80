@@ -1,0 +1,31 @@
+class Solution(object):
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        size = len(nums)
+        i, swap = 1, 1
+        duplicate, found = nums[0], False
+        
+        while i < size:
+            if nums[i] == duplicate:
+                if found:
+                    i += 1
+                else:
+                    nums[swap] = nums[i]
+                    i += 1
+                    swap += 1
+                    found = True
+            else:
+                found = False
+                duplicate = nums[i]
+                nums[swap] = nums[i]
+                i += 1
+                swap += 1
+            
+        return swap
+        
+        
