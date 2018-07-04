@@ -1,0 +1,30 @@
+class Solution(object):
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+        """
+        if not board:
+            return False
+        row = len(board)
+        col = len(board[0])
+        
+        for i in range(row):
+            for j in range(col):
+                if self.isFound(board, i, j, row, col, word, 0):
+                    return True
+        return False
+    
+    def isFound(self, board, rowPos, colPos, row, col, word, pos):
+        if pos >= len(word):
+            return True
+        if rowPos >= row or rowPos < 0 or colPos < 0 or colPos >= col or board[rowPos][colPos] != word[pos] or board[rowPos][colPos] == '-':
+            return False
+        
+        temp = board[rowPos][colPos]
+        board[rowPos][colPos] = '-'
+        val = self.isFound(board, rowPos+1, colPos, row, col, word, pos+1) or self.isFound(board, rowPos-1, colPos, row, col, word, pos+1) or self.isFound(board, rowPos, colPos-1, row, col, word, pos+1) or self.isFound(board, rowPos, colPos+1, row, col, word, pos+1)
+        board[rowPos][colPos] = temp
+        return val
+        
