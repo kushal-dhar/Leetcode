@@ -1,0 +1,24 @@
+class Solution(object):
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        if not nums:
+            return []
+        
+        size = len(nums)
+        res = []
+        
+        self.dfs(nums, [], res, 0, size)
+        return res
+    
+    def dfs(self, nums, temp, res, pos, size):
+        if pos > size:
+            return
+        res.append(temp)
+        
+        for i in range(pos, size):
+            self.dfs(nums, temp+[nums[i]], res, i+1, size)
+        return
+        
