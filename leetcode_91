@@ -1,0 +1,54 @@
+class Solution(object):
+    conv = {1:'A', 2:'B', 3:'C', 4:'D', 5:'E', 6:'F', 7:'G', 8:'H', 9:'I', 10:'J', 11:'K', 12:'L', 13:'M', 14:'N', 15:'O', 16:'P', 17:'Q', 18:'R', 19:'S', 20:'T', 21:'U', 22:'V', 23:'W', 24:'X', 25:'Y', 26:'Z'}
+    pos = {}
+    
+    def finddecodings(self, s, pos, size):
+        if (pos == size-1 and int(s[pos]) in self.conv) or (pos ==size):
+            return 1
+        if (pos == size-1 and int(s[pos]) not in self.conv):
+            return 0
+            
+        if pos in self.pos:
+            return self.pos[pos]
+        
+        val = 0
+        val2 = 0
+        #print "pos: ",pos, size
+        if pos < size:
+            if int(s[pos]) in self.conv:
+                #print "I am here"
+                val = self.finddecodings(s, pos+1, size)
+                #val += 1
+                #print val
+            else:
+                return 0
+        if pos+1 < size:
+            digit = int(s[pos])
+            digit *= 10
+            digit += int(s[pos+1])
+            if digit in self.conv:
+                val2 = self.finddecodings(s, pos+2, size)
+                #val2 += 1
+                #print "val2: ",val2
+                
+        self.pos[pos] = val+val2
+        #print "val, val2: ",val,val2, pos
+        #print self.pos
+        return val+val2   
+            
+    
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        size = len(s)
+        if size == 0:
+            return 0
+        self.pos.clear()
+        i = 0
+        
+        return self.finddecodings(s, 0, size)
+            
+            
+        
