@@ -1,0 +1,30 @@
+class Solution(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        size = len(nums)
+        count = [0 for i in range(32)]
+        
+        for num in nums:
+            if num < 0:
+                num *= -1
+            pos = 0
+            while num != 0:
+                count[pos] += num%2
+                num /= 2
+                pos += 1
+        
+        res = 0
+        power = 0
+        for i in range(32):
+            count[i] %= 3
+            if count[i]:
+                res += 2 ** power
+            power += 1
+        if res in nums and nums.count(res) == 1:
+            return res
+        res *= -1
+        return res
+        
