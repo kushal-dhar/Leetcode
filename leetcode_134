@@ -5,29 +5,18 @@ class Solution(object):
         :type cost: List[int]
         :rtype: int
         """
+        if sum(gas) < sum(cost):
+            return -1
+        left = 0
+        pos = 0
+        res = 0
         size = len(gas)
-        i = 0
         
-        while i < size:
-            left = gas[i] - cost[i]
+        while pos < size:
+            left += gas[pos] - cost[pos]
             if left < 0:
-                i += 1
-                continue
-            j = i + 1
-            while j != i:
-                if j == size:
-                    j = 0
-                if j == i:
-                    break
-                left += gas[j]
-                left -= cost[j]
-                if left < 0:
-                    break
-                j += 1
-            if left >= 0:
-                return i
-            i += 1
-        return -1
-            
-                
+                left = 0
+                res = pos + 1
+            pos += 1
+        return res
         
