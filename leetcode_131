@@ -1,0 +1,35 @@
+class Solution(object):
+    def partition(self, s):
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        res = []
+        size = len(s)
+        self.dfs(s, [], res, 0, size)
+        return res
+    
+    def dfs(self, s, temp, res, pos, size):
+        if pos == size:
+            res.append(temp)
+            return
+        
+        j = 1
+        while pos + j <= size:
+            # From current position, check for every string starting from length 1 until end of actual string. If the substring found is palindrome, then proceed to find the next set of substrings
+            string = s[pos:pos+j]
+            palindrome = True
+            k, l = 0, j-1
+            #Check if the substring taken is palindrome or not
+            while k < l:
+                if string[k] != string[l]:
+                    palindrome = False
+                    break
+                k += 1
+                l -= 1
+            if palindrome:
+                self.dfs(s, temp+[string], res, pos+j, size)
+            j += 1
+        return
+    
+        
