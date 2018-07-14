@@ -4,12 +4,11 @@ class Solution(object):
         :type s: str
         :rtype: str
         """
-        l = s.split()
-        size = len(l)
-        i, j = 0, size-1
-        while i < j:
-            l[i], l[j] = l[j], l[i]
-            i += 1
-            j -= 1
-            
-        return ' '.join(l)
+        arr = s.strip(' ')
+        arr = arr[::-1]
+        res = ''
+        for each in arr.split():
+            if each:
+                res += each[::-1]
+                res += ' '
+        return res.strip(' ')
