@@ -1,0 +1,32 @@
+class Solution(object):
+    def maxProduct(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        maxValue = -sys.maxint-1
+        posProduct = 1
+        negProduct = 1
+        
+        for num in nums:
+            if num > 0:
+                posProduct *= num
+                negProduct = min(negProduct * num, 1)                
+            elif num == 0:
+                posProduct = 1
+                negProduct = 1
+                if maxValue <= 0:
+                    maxValue = 0
+                    continue
+            else:
+                temp = posProduct
+                posProduct = max(negProduct*num, -sys.maxint-1)
+                negProduct = temp * num
+            
+            maxValue = max(maxValue, posProduct)            
+            if posProduct <= 0:
+                posProduct = 1
+                
+        return maxValue
+        
+        
