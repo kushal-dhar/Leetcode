@@ -1,0 +1,31 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def upsideDownBinaryTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        if not root:
+            return None
+        curr = root
+        left = root.left
+        right = root.right
+        curr.left = curr.right = None
+        
+        while left:
+            newLeft = left.left
+            newRight = left.right
+            left.right = curr
+            curr = left
+            left.left = right
+            left = newLeft
+            right = newRight
+        
+        return curr
+        
