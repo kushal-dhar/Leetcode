@@ -1,0 +1,45 @@
+class Solution(object):
+    def isOneEditDistance(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        if not s and not t:
+            return False
+        sizeA = len(s)
+        sizeB = len(t)
+        if sizeA > sizeB + 1 or sizeB > sizeA + 1:
+            return False
+        elif sizeB > sizeA:
+            s, t = t, s
+            sizeB, sizeA = sizeA, sizeB
+            
+        i, j = 0, 0
+        found = False
+        distance = 0
+        while i < sizeA and j < sizeB:
+            if s[i] == t[j]:
+                i += 1
+                j += 1
+                continue
+            elif found:
+                break
+            else:
+                if sizeA == sizeB:
+                    i += 1
+                    j += 1
+                else:
+                    i += 1
+                found = True
+                distance += 1
+                
+        if i < sizeA:
+            distance += sizeA-i
+
+        if distance == 1:
+            return True
+        return False
+            
+        
+        
