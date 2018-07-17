@@ -1,0 +1,33 @@
+class Solution(object):
+    def numIslands(self, grid):
+        """
+        :type grid: List[List[str]]
+        :rtype: int
+        """
+        row = len(grid)
+        if row == 0:
+            return 0
+        col = len(grid[0])
+        index = 2
+        for i in range(row):
+            for j in range(col):
+                if grid[i][j] == "1":
+                    self.updateGrid(grid, i, row, j, col, index)
+                    index += 1
+
+        return index-2
+    
+    def updateGrid(self, grid, rowPos, row, colPos, col, index):
+        if rowPos < 0 or rowPos >= row or colPos < 0 or colPos >= col:
+            return
+        
+        if grid[rowPos][colPos] == "1":
+            grid[rowPos][colPos] = str(index)
+            self.updateGrid(grid, rowPos-1, row, colPos, col, index)
+            self.updateGrid(grid, rowPos+1, row, colPos, col, index)
+            self.updateGrid(grid, rowPos, row, colPos-1, col, index)
+            self.updateGrid(grid, rowPos, row, colPos+1, col, index)
+        return
+    
+    
+        
