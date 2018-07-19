@@ -15,17 +15,20 @@ class Solution(object):
             return 0
         
         left = 1
+        # Get max level of root's left child
         node = root.left
         while node:
             node = node.left
             left += 1
             
         right = 1
+        # Get max level of root's right child
         node = root.right
         while node:
             node = node.right
             right += 1
         
+        # If max left depth equals max right depth, then tree is complete binary tree, else recursively get the count of left and right child
         if left == right:
             return (2**left)-1
         
