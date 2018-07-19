@@ -1,0 +1,39 @@
+class Solution(object):
+    def majorityElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        if not nums:
+            return []
+        
+        first = nums[0]
+        count1 = 1
+        second = 0
+        count2 = 0
+        
+        for i in range(1, len(nums)):            
+            if first == nums[i]:
+                count1 += 1
+                match = True
+            elif second == nums[i]:
+                count2 += 1
+                match = True
+                
+            elif count1 == 0:
+                first = nums[i]
+                count1 = 1
+            elif count2 == 0:
+                second = nums[i]
+                count2 = 1
+            else:
+                count1 -= 1
+                count2 -= 1
+        
+        res = []
+        if count1 > 0 and nums.count(first) > len(nums)/3:
+            res.append(first)
+        if count2 > 0 and nums.count(second) > len(nums)/3:
+            res.append(second)
+            
+        return res
