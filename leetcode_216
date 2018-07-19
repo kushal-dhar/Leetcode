@@ -11,9 +11,7 @@ class Solution(object):
         return res
     
     def dfs(self, nums, temp, res, index, count, k, n):
-        if n == 0 and count != k:
-            return
-        elif n == 0 and count == k:
+        if n == 0 and count == k:
             res.append(temp)
             return
         
