@@ -1,0 +1,29 @@
+class Solution(object):
+    def minSubArrayLen(self, s, nums):
+        """
+        :type s: int
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums or s > sum(nums):
+            return 0
+        
+        size = len(nums)
+        left = 0
+        right = 0
+        total = nums[left]
+        minLen = sys.maxint
+        while right < size:
+            if total < s:
+                right += 1
+                if right < size:
+                    total += nums[right]
+                else:
+                    break
+            else:
+                minLen = min(minLen, right-left+1)                
+                total -= nums[left]
+                left += 1
+        return minLen
+            
+        
