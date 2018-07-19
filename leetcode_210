@@ -1,0 +1,27 @@
+class Solution(object):
+    def findOrder(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: List[int]
+        """
+        course = collections.defaultdict(list)
+        prereq = collections.defaultdict(list)
+        for pre in prerequisites:
+            prereq[pre[0]].append(pre[1])
+            course[pre[1]].append(pre[0])
+        res = []    
+        stack = [i for i in range(numCourses) if i not in prereq]
+        
+        while stack:
+            node = stack.pop()
+            res.append(node)
+            for i in course[node]:
+                prereq[i].remove(node)
+                if not prereq[i]:
+                    stack.append(i)
+        
+        return res if len(res) == numCourses else []
+            
+                
+        
