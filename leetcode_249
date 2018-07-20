@@ -1,0 +1,22 @@
+class Solution(object):
+    def groupStrings(self, strings):
+        """
+        :type strings: List[str]
+        :rtype: List[List[str]]
+        """
+        dic = collections.defaultdict(list)
+        
+        for s in strings:
+            size = len(s)
+            i = 1
+            diff = '0'
+            while i < size:
+                diff += str(((ord(s[i])+26)-ord(s[i-1]))%26)
+                i += 1
+            dic[diff].append(s)
+        
+        res = []
+        for key in dic:
+            res.append(dic[key])
+        
+        return res
