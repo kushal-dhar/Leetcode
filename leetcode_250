@@ -1,0 +1,65 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def countUnivalSubtrees(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root:
+            return 0
+        
+        if not root.left and not root.right:
+            return 1
+        lval, lstatus = self.countSubTrees(root.left)
+        rval, rstatus = self.countSubTrees(root.right)
+        if not lstatus or not rstatus:
+            return lval + rval
+        if root.left and root.right:
+            if root.left.val == root.val and root.right.val == root.val:
+                return lval+rval+1
+        
+        elif root.left:
+            if root.left.val == root.val:
+                return lval+1
+            
+        else:
+            if root.right.val == root.val:
+                return rval+1
+        
+        return lval+rval
+    
+    def countSubTrees(self, root):
+        if not root:
+            return 0, True
+        
+        if not root.left and not root.right:
+            return 1, True
+        
+        lval, lstatus = self.countSubTrees(root.left)
+        rval, rstatus = self.countSubTrees(root.right)
+        
+        if not lstatus or not rstatus:
+            return lval + rval, False
+            
+        if root.left and root.right:
+            if root.left.val == root.val and root.right.val == root.val:
+                return lval+rval+1, True
+        
+        elif root.left:
+            if root.left.val == root.val:
+                return lval+1, True
+            
+        else:
+            if root.right.val == root.val:
+                return rval+1, True
+        
+        return lval+rval, False          
+        
+        
+        
