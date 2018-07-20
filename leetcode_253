@@ -1,0 +1,34 @@
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def minMeetingRooms(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: int
+        """
+        used = []
+        count = 0
+        intervals.sort(key=lambda x:x.start)
+        
+        for timing in intervals:
+            if not used:
+                count += 1
+                used.append(timing.end)
+            else:
+                found = False
+                for val in used:
+                    if val <= timing.start:
+                        used.remove(val)
+                        found = True
+                        break
+                if not found:
+                    count += 1
+                used.append(timing.end)
+                
+        return count
+                        
+                    
