@@ -1,0 +1,22 @@
+class Solution(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        # https://www.geeksforgeeks.org/find-two-non-repeating-elements-in-an-array-of-repeating-elements/
+        xor = 0
+        for i in nums:
+            xor ^= i
+            
+        setBit = xor & ~(xor-1)
+        
+        x, y = 0, 0
+        for i in nums:
+            if i & setBit:
+                x ^= i
+            else:
+                y ^= i
+        
+        return [x,y]
+        
