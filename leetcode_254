@@ -1,0 +1,24 @@
+class Solution(object):
+    def getFactors(self, n):
+        """
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        if n == 1:
+            return []
+        
+        res = []
+        self.dfs(n, 2, res, [])
+        return res
+    
+    def dfs(self, n, start, res, temp):
+        if temp:
+            res.append(temp+[n])
+        
+        for i in range(start, int(math.sqrt(n))+1):
+            if n%i == 0:
+                self.dfs(n/i, i, res, temp+[i])
+        return
+        
+        
+        
