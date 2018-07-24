@@ -1,0 +1,26 @@
+class Solution(object):
+    def nthUglyNumber(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        res = [1,2,3]
+        if n <= 3:
+            return res[n-1]
+        
+        count = 3
+        multiple = [1,1,0]
+        while count < n:
+            # only those numbers in res are multiples of 2,3 and 5 hence keep on multiplying the numbers in res with 2,3 and 5
+            res.append(min(2*res[multiple[0]], 3*res[multiple[1]], 5*res[multiple[2]]))
+            if res[-1] % 2 == 0:
+                multiple[0] += 1
+            if res[-1] % 3 == 0:
+                multiple[1] += 1
+            if res[-1] % 5 == 0:
+                multiple[2] += 1
+            count += 1
+        
+        return res[-1]
+            
+        
