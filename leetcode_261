@@ -1,0 +1,37 @@
+class Solution(object):
+    def validTree(self, n, edges):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :rtype: bool
+        """
+        #https://leetcode.com/problems/graph-valid-tree/discuss/69031/My-python-easy-understood-BFS-solution
+        if not edges:
+            if n == 1:
+                return True
+            return False
+        
+        dic = collections.defaultdict(list)
+        for i in range(n):
+            dic[i] = []        
+        for start, end in edges:
+            dic[start].append(end)
+            dic[end].append(start)
+        
+        visited = collections.defaultdict(int)
+        start = [dic.keys()[0]]
+        
+        while start:
+            node = start.pop(0)
+            if visited[node] == 1:
+                return False
+            visited[node] = 1
+            for edge in dic[node]:
+                start.append(edge)
+                dic[edge].remove(node)
+            del dic[node]
+                    
+        return not dic
+            
+            
+        
