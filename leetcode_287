@@ -1,0 +1,15 @@
+class Solution(object):
+    def findDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        size = len(nums)
+        
+        for i in range(size):
+            nums[nums[i]%size] += size
+            
+        for i in range(size):
+            if nums[i] > 2*size:
+                return i
+        return 0
