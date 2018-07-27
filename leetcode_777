@@ -1,0 +1,26 @@
+class Solution(object):
+    def canTransform(self, start, end):
+        """
+        :type start: str
+        :type end: str
+        :rtype: bool
+        """
+        # https://leetcode.com/problems/swap-adjacent-in-lr-string/discuss/147987/Explanation-and-java-solution
+        size = len(start)
+        if size != len(end):
+            return False
+        
+        l, r = 0, 0
+        for i in range(size):
+            if start[i] == 'L':
+                l += 1
+            elif start[i] == 'R':
+                r += 1
+            if end[i] == 'L':
+                l -= 1
+            elif end[i] == 'R':
+                r -= 1
+            if ((l > 0 or r < 0) or (l < 0 and r != 0) or (r > 0 and l != 0)):
+                return False
+            
+        return l == 0 and r == 0
