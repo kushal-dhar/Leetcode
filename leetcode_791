@@ -1,0 +1,23 @@
+class Solution(object):
+    def customSortString(self, S, T):
+        """
+        :type S: str
+        :type T: str
+        :rtype: str
+        """
+        if not S:
+            return T
+        dic = collections.defaultdict(int)
+        for pos, char in enumerate(T):
+            dic[char] += 1
+            
+        res = ''
+        for char in S:
+            res += (char*dic[char])
+            while dic[char] > 0:
+                T = T.replace(char, '')
+                dic[char] -= 1
+            
+        res += T
+        return res
+                
