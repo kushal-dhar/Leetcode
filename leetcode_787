@@ -1,0 +1,36 @@
+class Solution(object):
+    def findCheapestPrice(self, n, flights, src, dst, K):
+        """
+        :type n: int
+        :type flights: List[List[int]]
+        :type src: int
+        :type dst: int
+        :type K: int
+        :rtype: int
+        """
+        price = collections.defaultdict(list)
+        for each in flights:
+            price[each[1]].append([each[0], each[2]])
+        
+        self.cost = sys.maxint
+        for each in price[dst]:
+            if each[0] == src:
+                self.cost = each[1]
+
+        visited = [dst]
+        for each in price[dst]:
+            if each[0] not in visited:
+                self.findCheapest(price, src, each[0], each[1], visited+[each[0]], K)
+        return self.cost if self.cost != sys.maxint else -1
+    
+    def findCheapest(self, price, src, town, ticket, visited, K):
+        if K < 0:
+            return
+        if K >= 0 and src == town:
+            self.cost = min(self.cost, ticket)
+            return
+        
+        for each in price[town]:
+            if each[0] not in visited and ticket+each[1] < self.cost:
+                self.findCheapest(price, src, each[0], ticket+each[1], visited+[each[0]], K-1)
+        return
