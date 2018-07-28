@@ -1,0 +1,17 @@
+class Solution(object):
+    def escapeGhosts(self, ghosts, target):
+        """
+        :type ghosts: List[List[int]]
+        :type target: List[int]
+        :rtype: bool
+        """
+        # If the ghost is able to reach the target before me, then return False, else return True
+        dist = abs(target[0]) + abs(target[1])
+        
+        for each in ghosts:
+            ghostDist = abs(target[0]-each[0]) + abs(target[1]-each[1])
+            if ghostDist <= dist:
+                return False
+        
+        return True
+        
