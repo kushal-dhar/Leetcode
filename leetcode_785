@@ -1,0 +1,24 @@
+class Solution(object):
+    def isBipartite(self, graph):
+        """
+        :type graph: List[List[int]]
+        :rtype: bool
+        """
+        colored = {}
+        
+        for i in range(len(graph)):
+            if i not in colored:
+                if not self.colorGraph(graph, colored, i, 0):
+                    return False
+        return True
+    
+    def colorGraph(self, graph, colored, node, color):
+        if node in colored:
+            return colored[node] == color
+        
+        colored[node] = color
+        for i in graph[node]:
+            if not self.colorGraph(graph, colored, i, 1 if color == 0 else 0):
+                return False
+        return True
+            
