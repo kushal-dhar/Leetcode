@@ -1,0 +1,33 @@
+class Solution(object):
+    def numSubarrayBoundedMax(self, A, L, R):
+        """
+        :type A: List[int]
+        :type L: int
+        :type R: int
+        :rtype: int
+        """
+        # https://www.geeksforgeeks.org/number-subarrays-maximum-value-given-range/
+        inc = 0
+        exc = 0
+        res = 0
+        
+        for num in A:
+            if num < L:
+                inc += 1
+                exc += 1
+            elif num > R:
+                res += self.countSubArray(inc) - self.countSubArray(exc)
+                inc, exc = 0, 0
+            elif L <= num <= R:
+                res -= self.countSubArray(exc)
+                exc = 0
+                inc += 1
+        
+        res += self.countSubArray(inc) - self.countSubArray(exc)
+        return res
+    
+    def countSubArray(self, n):
+        return (n*(n+1))/2
+    
+                
+        
