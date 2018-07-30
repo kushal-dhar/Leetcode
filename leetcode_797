@@ -1,0 +1,31 @@
+class Solution(object):
+    def allPathsSourceTarget(self, graph):
+        """
+        :type graph: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        dic = collections.defaultdict(list)
+        
+        for i, edges in enumerate(graph):
+            dic[i] = edges
+            n = i
+            
+        visited = [0]
+        res = []
+        for node in dic[0]:
+            self.dfs(graph, node, n, res, visited+[node], dic)
+        return res
+    
+    
+    def dfs(self, graph, node, end, res, visited, dic):
+        if node == end:
+            res.append(visited)
+            return
+        
+        #visited.append(node)
+        for elem in dic[node]:
+            if elem not in visited:
+                self.dfs(graph, elem, end, res, visited+[elem], dic)
+        return
+        
+        
