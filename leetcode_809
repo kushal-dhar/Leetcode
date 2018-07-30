@@ -1,0 +1,44 @@
+class Solution(object):
+    def expressiveWords(self, S, words):
+        """
+        :type S: str
+        :type words: List[str]
+        :rtype: int
+        """
+        size = len(S)
+        count = 0
+        
+        for word in words:
+            length = len(word)
+            i, j = 0, 0
+            found = True
+            while i < length and j < size and found:
+                if word[i] == S[j]:
+                    same = 1
+                    temp = j+1
+                    #Count number of same elements in S from the current position
+                    while temp < size and S[temp] == S[j]:
+                        same += 1
+                        temp += 1
+                    # If the number of same elements are more than 3, then the smaller array can be stretched
+                    # keep on incrementing until all the repeated characters are covered
+                    if same >= 3:
+                        i += 1
+                        j += 1
+                        while i < length and word[i] == word[i-1] and j < size and S[j] == S[j-1]:
+                            i += 1
+                            j += 1
+                        while j < size and S[j] == S[j-1]:
+                            j += 1
+                    # If the number of same elements in S is less than 3, then they are not stretched from words.
+                    # Hence increment only the positions of word and S.
+                    else:
+                        i += 1
+                        j += 1
+                else:
+                    found = False
+            if found and i == length and j == size:
+                count += 1
+        
+        return count
+        
