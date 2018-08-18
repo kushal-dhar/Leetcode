@@ -1,0 +1,21 @@
+class Solution(object):
+    def numFactoredBinaryTrees(self, A):
+        """
+            :type A: List[int]
+            :rtype: int
+            """
+        if not A:
+            return 0
+        A.sort()
+        dp = collections.Counter(A)
+        
+        for i, val in enumerate(A):
+            for idx in range(i):
+                if val % A[idx] == 0:
+                    quotient = val / A[idx]
+                    if quotient in dp:
+                        dp[val] += dp[A[idx]] * dp[quotient]
+        
+        return sum(dp.values()) % (10**9+7)
+                
+        
