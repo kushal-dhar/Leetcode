@@ -1,0 +1,30 @@
+class Solution(object):
+    def numFriendRequests(self, ages):
+        """
+        :type ages: List[int]
+        :rtype: int
+        """
+        # https://leetcode.com/problems/friends-of-appropriate-ages/discuss/149190/Python-Two-point-solution-with-detailed-comments-O(n)-time-and-O(1)-space.
+        ages.sort()
+        left = 0
+        right = 0
+        res = 0
+        
+        for i, val in enumerate(ages):
+            if ages[left] <= 14:
+                left += 1
+                right += 1
+            
+            else:
+                while ages[left] <= 0.5 * val + 7:
+                    left += 1
+                    
+                
+                if right == i:
+                    right += 1
+                    while right < len(ages) and ages[right] == val:
+                        right += 1
+                
+                res += right - left - 1
+        
+        return res
