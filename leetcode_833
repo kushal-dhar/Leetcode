@@ -1,0 +1,18 @@
+class Solution(object):
+    def findReplaceString(self, S, indexes, sources, targets):
+        """
+        :type S: str
+        :type indexes: List[int]
+        :type sources: List[str]
+        :type targets: List[str]
+        :rtype: str
+        """
+        # https://leetcode.com/problems/find-and-replace-in-string/discuss/143860/Simple-Python-Solution-without-Sorting
+        res = list(S)
+        
+        for i, index in enumerate(indexes):
+            if S[index:index+len(sources[i])] == sources[i]:
+                res[index] = targets[i]
+                for j in range(1, len(sources[i])):
+                    res[index+j] = ""
+        return ''.join(res)
