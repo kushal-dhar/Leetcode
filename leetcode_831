@@ -1,0 +1,44 @@
+class Solution(object):
+    def maskPII(self, S):
+        """
+        :type S: str
+        :rtype: str
+        """
+        if '@' in S:
+            res = self.getString(S, True)
+        else:
+            res = self.getString(S, False)
+        return res
+    
+    def getString(self, string, status):
+        res = ''
+        if status == True:
+            pos = string.index('@')
+            res = string[:1].lower()
+            res += '*****'
+            pos -= 1
+            res += string[pos:].lower()
+        else:                
+            string = string.replace('-','').replace(')','').replace('(','').replace('+','').replace(' ','')
+            length = len(string)
+            i = length-1
+            
+            pos = 0
+            while pos < 4:
+                res = string[i] + res
+                pos += 1
+                i -= 1
+            res = '-' + res
+            pos = 0
+            while i >= 0:
+                if pos > 0 and pos % 3 == 0:
+                    res = '-' + res
+                res = '*' + res
+                i -= 1
+                pos += 1
+            if length > 10:
+                res = '+' + res
+            
+        return res
+                    
+                
