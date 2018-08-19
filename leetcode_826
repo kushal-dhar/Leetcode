@@ -1,0 +1,30 @@
+class Solution(object):
+    def maxProfitAssignment(self, difficulty, profit, worker):
+        """
+        :type difficulty: List[int]
+        :type profit: List[int]
+        :type worker: List[int]
+        :rtype: int
+        """
+        dic = collections.defaultdict(int)
+        
+        for i, val in enumerate(difficulty):
+            dic[val] = max(dic[val], profit[i])
+        
+        difficulty.sort()
+        worker.sort()
+        
+        ptr1 = 0
+        ptr2 = 0
+        maxVal = 0
+        res = 0
+        
+        while ptr1 < len(worker):
+            val = worker[ptr1]
+            while ptr2 < len(difficulty) and difficulty[ptr2] <= val:
+                maxVal = max(maxVal, dic[difficulty[ptr2]])
+                ptr2 += 1
+            res += maxVal
+            ptr1 += 1
+        
+        return res
