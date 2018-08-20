@@ -1,0 +1,34 @@
+class Solution(object):
+    def canVisitAllRooms(self, rooms):
+        """
+        :type rooms: List[List[int]]
+        :rtype: bool
+        """
+        dic = collections.defaultdict(list)
+        number = len(rooms)
+        
+        for i, key in enumerate(rooms):
+            dic[i] = key
+        visited = []
+        
+        return self.dfs(dic, visited, 0, number)
+    
+    def dfs(self, dic, visited, curr, number):
+        if curr in visited:
+            return False
+        
+        visited.append(curr)
+        if len(visited) == number:
+            return True
+        
+        for j in dic[curr]:
+            if j in visited:
+                continue
+            val = self.dfs(dic, visited, j, number)
+            if val == True:
+                return True
+        
+        return False
+            
+            
+        
