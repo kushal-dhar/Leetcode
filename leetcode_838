@@ -1,0 +1,44 @@
+class Solution(object):
+    def pushDominoes(self, dominoes):
+        """
+        :type dominoes: str
+        :rtype: str
+        """
+        # https://leetcode.com/problems/push-dominoes/discuss/160048/Python-two-pointers-O(n)-time
+        size = len(dominoes)
+        dominoes = list(dominoes)
+        i = 0
+        
+        while i < size:
+            j = i + 1
+            while j < size and dominoes[j] == '.':
+                if dominoes[i] != 'R' and dominoes[j] == 'R':
+                    i = j
+                j += 1
+            
+            if j == size:
+                if dominoes[i] == 'R':
+                    while i < size:
+                        dominoes[i] = 'R'
+                        i += 1
+                break
+                    
+            next_i = j
+            if dominoes[i] == 'R' and dominoes[j] == 'L':
+                while i < j:
+                    dominoes[i], dominoes[j] = 'R', 'L'
+                    i += 1
+                    j -= 1
+            elif dominoes[i] != 'R' and dominoes[j] == 'L':
+                while i < j:
+                    dominoes[i] = 'L'
+                    i += 1
+            elif dominoes[i] == 'R' and dominoes[j] != 'L':
+                while i < j:
+                    dominoes[i] = 'R'
+                    i += 1
+            i = next_i
+                
+        return ''.join(dominoes)
+                    
+                
