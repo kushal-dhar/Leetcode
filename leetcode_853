@@ -1,0 +1,31 @@
+class Solution(object):
+    def carFleet(self, target, position, speed):
+        """
+        :type target: int
+        :type position: List[int]
+        :type speed: List[int]
+        :rtype: int
+        """
+        # https://leetcode.com/problems/car-fleet/discuss/139850/C++JavaPython-Straight-Forward
+        
+        res = 0
+        cur = 0
+        size = len(position)
+        status = []
+        
+        for i in range(size):
+            status.append((position[i], speed[i]))
+            
+        status.sort()
+        time = []
+        
+        for pos, spd in status[::-1]:
+            time.append(float(target-pos)/spd)
+        
+        for t in time:
+            if t > cur:
+                res += 1
+                cur = t
+        return res
+            
+        
