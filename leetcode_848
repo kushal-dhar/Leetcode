@@ -1,0 +1,32 @@
+class Solution(object):
+    def shiftingLetters(self, S, shifts):
+        """
+        :type S: str
+        :type shifts: List[int]
+        :rtype: str
+        """
+        size = len(S)
+        i = size-2
+        total = shifts[-1]
+        res = ''
+        
+        while i >= 0:
+            shifts[i] += total
+            total = shifts[i]
+            i -= 1
+        
+        i = 0
+        while i < size:
+            val = shifts[i] % 26
+            #ASCII value of z is 122. Hence find the difference from 'z' to that character
+            diff = 122 - ord(S[i])  
+            if diff >= val:
+                res += chr(ord(S[i]) + val)
+            else:        
+                val -= diff+1
+                res += chr(ord('a') + val)
+            i += 1
+            
+        return res
+            
+        
