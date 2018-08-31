@@ -1,0 +1,29 @@
+class Solution(object):
+    def scoreOfParentheses(self, S):
+        """
+        :type S: str
+        :rtype: int
+        """
+        stack = []
+        size = len(S)
+        i = 0
+        
+        while i < size:
+            if S[i] == '(':
+                stack.append('(')
+            elif S[i] == ')':
+                if stack[-1] == '(':
+                    stack.pop()
+                    stack.append(1)
+                else:
+                    val = stack.pop()
+                    stack.pop()
+                    stack.append(val*2)
+                val = 0
+                while stack and stack[-1] != '(':
+                    val += stack.pop()
+                stack.append(val)
+            i += 1
+            
+        return stack.pop()
+        
