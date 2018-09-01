@@ -1,0 +1,94 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def subtreeWithAllDeepest(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        dic = collections.defaultdict(int)
+        self.deep = 0
+        self.dfs(root, dic, 1)
+        deepest = []
+        
+        #First get the deepest node names
+        for key in dic:
+            depth = dic[key]
+            if depth == self.deep:
+                deepest.append(key)
+        
+        # Find the parent of all the deepest nodes
+        parent = self.findParent(root, deepest)
+        # Now populate the entire subtree from the parent onwards
+        if len(deepest) == 1:
+            return parent
+        res = []
+        self.populate(parent, res)
+        return res
+        
+    
+    def dfs(self, root, dic, depth):
+        if not root:
+            return
+        
+        self.deep = max(self.deep, depth)
+        dic[root.val] = depth
+        if root.left:
+            self.dfs(root.left, dic, depth+1)
+        if root.right:
+            self.dfs(root.right, dic, depth+1)
+        return
+    
+    
+    def findParent(self, root, deepest):
+        if not root:
+            return None
+        
+        if root.val in deepest:
+            return root
+        
+        leftVal = self.findParent(root.left, deepest)
+        rightVal = self.findParent(root.right, deepest)
+        if leftVal and rightVal:
+            return root
+        if leftVal:
+            return leftVal
+        if rightVal:
+            return rightVal
+        return None
+    
+    
+    def populate(self, root, res):
+        queue = [root]
+        
+        while queue:
+            size = len(queue)
+            while size > 0:
+                node = queue.pop(0)
+                if not node:
+                    res.append(None)
+                    size -= 1
+                    continue
+                res.append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                else:
+                    queue.append(None)
+                if node.right:
+                    queue.append(node.right)
+                else:
+                    queue.append(None)
+                size -= 1
+        
+        # To remove the last "None" nodes added at the end for the deepest nodes.
+        while res[-1] == None:
+            res.pop()
+        return
+        
+            
+        
