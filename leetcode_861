@@ -1,0 +1,49 @@
+class Solution(object):
+    def matrixScore(self, A):
+        """
+        :type A: List[List[int]]
+        :rtype: int
+        """
+        row = len(A)
+        col = 0
+        if row:
+            col = len(A[0])
+            
+        for i in range(row):
+            if A[i][0] == 0:
+                self.toggleRow(A, i, col)
+        
+        
+        for j in range(col):
+            total = sum(A[i][j] for i in range(row))
+            if (total*1.0) < (row/2.0):
+                self.toggleCol(A, row, j)
+            
+        total = 0
+        for i in range(row):
+            val = 0
+            power = 0
+            for j in range(col-1, -1, -1):
+                val += A[i][j]* (2**power)
+                power += 1
+            total += val
+        return total
+        
+    
+    def toggleRow(self, A, row, col):
+        for i in range(col):
+            if A[row][i] == 0:
+                A[row][i] = 1
+            else:
+                A[row][i] = 0
+        return
+                
+    def toggleCol(self, A, row, col):
+        for i in range(row):
+            if A[i][col] == 0:
+                A[i][col] = 1
+            else:
+                A[i][col] = 0
+        return
+    
+        
