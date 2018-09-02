@@ -1,0 +1,16 @@
+class Solution(object):
+    def reorderedPowerOf2(self, N):
+        """
+        :type N: int
+        :rtype: bool
+        """
+        #Count the digits in N and count the digits for each power of 2
+        # If there is a match, then the given number can be arranged as a power of 2. See Solution for more details
+        digitCount = collections.Counter(str(N))
+        for i in range(31):
+            val = int(math.pow(2, i))
+            powerCount = collections.Counter(str(val))
+            if digitCount == powerCount:
+                return True
+        return False
+        
