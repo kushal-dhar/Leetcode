@@ -1,0 +1,25 @@
+class Solution(object):
+    def advantageCount(self, A, B):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :rtype: List[int]
+        """
+        a = sorted(A)
+        b = sorted(B)
+        size = len(A)
+        dic = collections.defaultdict(list)
+        unmatched = []
+        j = 0
+        
+        for i in range(size):
+            if a[i] > b[j]:
+                dic[b[j]].append(a[i])
+                j += 1
+            else:
+                unmatched.append(a[i])
+        
+        return [dic[i].pop() if i in dic and len(dic[i]) > 0 else unmatched.pop() for i in B]
+                
+
+        
