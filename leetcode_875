@@ -1,0 +1,19 @@
+class Solution(object):
+    def minEatingSpeed(self, piles, H):
+        """
+        :type piles: List[int]
+        :type H: int
+        :rtype: int
+        """        
+        total = sum(piles)
+        res = sys.maxint
+        quotient = int(((total*1.0) / H)+0.99)
+        while res > H:
+            res = 0
+            for val in piles:
+                res += int(((val*1.0)/quotient)+0.99)
+            if res <= H:
+                return quotient
+            quotient += 1
+        
+        return -1
