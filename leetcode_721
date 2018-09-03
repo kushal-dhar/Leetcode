@@ -1,0 +1,72 @@
+class unionFind(object):
+    def __init__(self, n):
+        self.parent = [-1 for i in range(n)]
+        self.rank = [0 for i in range(n)]
+        for i in range(n):
+            self.parent[i] = i
+            
+    def findSet(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.findSet(self.parent[i])
+        return self.parent[i]
+    
+    def unionSet(self, i, j):
+        p1 = self.findSet(i)
+        p2 = self.findSet(j)
+        if p1 != p2:
+            if self.rank[p1] > self.rank[p2]:
+                self.parent[p2] = p1
+            elif self.rank[p2] > self.rank[p1]:
+                self.parent[p1] = p2
+            else:
+                self.parent[p2] = p1
+                self.rank[p1] += 1
+    
+        
+        
+class Solution(object):
+    def accountsMerge(self, accounts):
+        """
+        :type accounts: List[List[str]]
+        :rtype: List[List[str]]
+        """
+        email2name = {}
+        id2email = {}
+        email2id = {}
+        res = collections.defaultdict(set)
+        final = []
+        eid = 0
+        
+        for each in accounts:
+            name = each[0]
+            for email in each[1:]:
+                if email not in email2name:
+                    email2name[email] = name
+                    id2email[eid] = email
+                    email2id[email] = eid
+                    eid += 1
+        
+        n = len(email2name.keys())
+        uf = unionFind(n)
+        for each in accounts:
+            first_email = each[1]
+            for emails in each[2:]:
+                uf.unionSet(email2id[first_email], email2id[emails])
+        
+        for email in email2id:
+            root_emailid = uf.findSet(email2id[email])
+            root_email = id2email[root_emailid]
+            res[root_email].add(email)
+        
+        for root_email in res:
+            tmp = []
+            name = email2name[root_email]
+            tmp.append(name)
+            tmp.extend(sorted(res[root_email]))
+            final.append(tmp)
+        
+        return final
+            
+            
+                
+        
