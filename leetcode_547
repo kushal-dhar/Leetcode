@@ -1,0 +1,54 @@
+class unionFind(object):
+    def __init__(self, edges):
+        #self.parent = [-1 for i in range(n)]
+        #self.rank = [0 for i in range(n)]
+        self.count = 0
+        row = len(edges)
+        self.parent = [-1 for i in range(row)]
+        self.rank = [0 for i in range(row)]        
+        self.count = row
+        for i in range(row):
+            self.parent[i] = i
+            
+    
+    def findSet(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.findSet(self.parent[i])
+        return self.parent[i]
+    
+    def unionSet(self, i, j):
+        p1 = self.findSet(i)
+        p2 = self.findSet(j)
+        if p1 != p2:
+            if self.rank[p1] > self.rank[p2]:
+                self.parent[p2] = p1
+            elif self.rank[p2] > self.rank[p1]:
+                self.parent[p1] = p2
+            else:
+                self.parent[p2] = p1
+                self.rank[p1] += 1
+            self.count -= 1
+                
+    
+        
+class Solution(object):
+    def findCircleNum(self, M):
+        """
+        :type M: List[List[int]]
+        :rtype: int
+        """
+        row = len(M)
+        col = 0
+        if row:
+            col = len(M[0])
+        uf = unionFind(M)
+        
+        #directions = [(0,1), (0,-1), (1,0), (-1,0)]
+        for i in range(row):
+            for j in range(col):
+                if i != j and M[i][j] == 1:
+                    uf.unionSet(i, j)                    
+        
+        return uf.count
+                            
+        
