@@ -1,0 +1,44 @@
+class unionFind(object):
+    def __init__(self, vertices):
+        self.parent = [-1 for i in range(vertices)]
+        self.rank = [0 for i in range(vertices)] 
+        for i in range(vertices):
+            self.parent[i] = i
+            
+    
+    def findSet(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.findSet(self.parent[i])
+        return self.parent[i]
+    
+    def unionSet(self, i, j):
+        p1 = self.findSet(i)
+        p2 = self.findSet(j)
+        if p1 != p2:
+            if self.rank[p1] > self.rank[p2]:
+                self.parent[p2] = p1
+            elif self.rank[p2] > self.rank[p1]:
+                self.parent[p1] = p2
+            else:
+                self.parent[p2] = p1
+                self.rank[p1] += 1
+            
+    def isConnected(self, i, j):
+        return self.findSet(i) == self.findSet(j)
+                
+                
+class Solution(object):
+    def findRedundantConnection(self, edges):
+        """
+        :type edges: List[List[int]]
+        :rtype: List[int]
+        """
+        vertices = len(edges)
+        uf = unionFind(vertices)
+        
+        for each in edges:
+            if uf.isConnected(each[0]-1, each[1]-1):
+                return each
+            uf.unionSet(each[0]-1, each[1]-1)
+        return []
+        
