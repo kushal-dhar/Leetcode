@@ -1,0 +1,61 @@
+class unionFind(object):
+    def __init__(self, nums):
+        size = len(nums)
+        self.parent = {}
+        self.rank = {}
+        self.count = {}
+        for num in nums:
+            self.parent[num] = num
+            self.rank[num] = 0
+            self.count[num] = 1
+    
+    
+    def findSet(self, i):
+        if self.parent[i] != i:
+            #self.count[i] = self.count[self.parent[i]]
+            self.parent[i] = self.findSet(self.parent[i])
+            self.count[i] = self.count[self.parent[i]]
+        return self.parent[i]
+    
+    
+    def unionSet(self, i, j):
+        p1 = self.findSet(i)
+        p2 = self.findSet(j)
+        if p1 != p2:
+            if self.rank[p1] > self.rank[p2]:
+                self.parent[p2] = p1
+                self.count[p1] += self.count[p2]
+            elif self.rank[p2] > self.rank[p1]:
+                self.parent[p1] = p2
+                self.count[p2] += self.count[p1]
+            else:
+                self.parent[p2] = p1
+                self.rank[p1] += 1
+                self.count[p1] += self.count[p2]
+        return
+            
+    
+class Solution(object):
+    def longestConsecutive(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        dic = collections.defaultdict(bool)
+        for num in nums:
+            dic[num] = False
+        uf = unionFind(nums)
+        
+        for each in nums:
+            if each-1 in dic:
+                uf.unionSet(each, each-1)
+            if each+1 in dic:
+                uf.unionSet(each, each+1)
+        
+        res = 0
+        for each in nums:
+            res = max(res, uf.count[uf.findSet(each)])
+        return res
+            
+        
+        
