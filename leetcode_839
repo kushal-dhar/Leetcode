@@ -1,0 +1,58 @@
+class unionFind(object):
+    def __init__(self, n):
+        self.parent = [-1 for i in range(n)]
+        self.rank = [0 for i in range(n)]
+        self.count = n
+        for i in range(i):
+            self.parent[i] = i    
+            
+    def findSet(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.findSet(self.parent[i])
+        return self.parent[i]
+    
+    def unionSet(self, i, j):
+        p1 = self.findSet(i)
+        p2 = self.findSet(j)
+        if p1 != p2:
+            if self.rank[p1] > self.rank[p2]:
+                self.parent[p2] = p1
+            elif self.rank[p2] > self.rank[p1]:
+                self.parent[p1] = p2
+            else:
+                self.parent[p2] = p1
+                self.rank[p1] += 1
+            self.count -= 1
+            
+            
+class Solution(object):
+    def numSimilarGroups(self, A):
+        """
+        :type A: List[str]
+        :rtype: int
+        """
+        A = set(A)
+        A = list(A)
+        n = len(A)
+        uf = unionFind(n)
+        for i in range(n):
+            for j in range(i, n):
+                if self.isSimilar(A[i], A[j]):
+                    uf.unionSet(i, j)
+                    #break
+        return uf.count
+                    
+    
+    def isSimilar(self, A, B):
+        lenA = len(A)
+        lenB = len(B)
+        if lenA != lenB:
+            return False
+        
+        count = 0
+        for i in range(lenA):
+            if A[i] != B[i]:
+                count += 1
+                if count >= 3:
+                    return False
+        return True                       
