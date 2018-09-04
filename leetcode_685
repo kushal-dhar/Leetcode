@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/redundant-connection-ii/discuss/108070/Python-O(N)-concise-solution-with-detailed-explanation-passed-updated-testcases
 class unionFind(object):
     def __init__(self, n):
         self.parent = [-1 for i in range(n)]
