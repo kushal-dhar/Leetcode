@@ -1,0 +1,61 @@
+class unionFind(object):
+    def __init__(self, n):
+        self.parent = [-1 for i in range(n)]
+        self.rank = [0 for i in range(n)]
+        self.count = 0
+        
+    def makeSet(self, i):
+        self.parent[i] = i
+        self.count += 1
+            
+    def findSet(self, i):
+        if self.parent[i] == -1:
+            return -1
+        if self.parent[i] != i:
+            self.parent[i] = self.findSet(self.parent[i])
+        return self.parent[i]
+    
+    def unionSet(self, i, j):
+        p1 = self.findSet(i)
+        p2 = self.findSet(j)
+        if p1 == -1 or p2 == -1:
+            return
+        if p1 != p2:
+            if self.rank[p1] > self.rank[p2]:
+                self.parent[p2] = p1
+            elif self.rank[p2] > self.rank[p1]:
+                self.parent[p1] = p2
+            else:
+                self.parent[p2] = p1
+                self.rank[p1] += 1
+            self.count -= 1
+                
+
+
+class Solution(object):
+    def numIslands2(self, m, n, positions):
+        """
+        :type m: int
+        :type n: int
+        :type positions: List[List[int]]
+        :rtype: List[int]
+        """
+        uf = unionFind(m*n)
+        directions = [(1,0), (0, 1), (-1,0), (0, -1)]
+        res = []
+        
+        for position in positions:
+            x = position[0]
+            y = position[1]
+            uf.makeSet(x*n+y)
+            for d in directions:
+                newX = x + d[0]
+                newY = y + d[1]
+                if newX >= 0 and newX < m and newY >= 0 and newY < n:
+                    uf.unionSet(x*n+y, newX*n+newY)
+            res.append(uf.count)    
+
+
+        return res
+        
+        
