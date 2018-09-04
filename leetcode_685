@@ -1,0 +1,71 @@
+class unionFind(object):
+    def __init__(self, n):
+        self.parent = [-1 for i in range(n)]
+        self.rank = [0 for i in range(n)]
+        for i in range(i):
+            self.parent[i] = i    
+            
+    def findSet(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.findSet(self.parent[i])
+        return self.parent[i]
+    
+    def unionSet(self, i, j):
+        p1 = self.findSet(i)
+        p2 = self.findSet(j)
+        if p1 != p2:
+            if self.rank[p1] > self.rank[p2]:
+                self.parent[p2] = p1
+            elif self.rank[p2] > self.rank[p1]:
+                self.parent[p1] = p2
+            else:
+                self.parent[p2] = p1
+                self.rank[p1] += 1
+    
+    def isConnected(self, i, j):
+        return self.findSet(i) == self.findSet(j)
+
+class Solution(object):
+    def findRedundantDirectedConnection(self, edges):
+        """
+        :type edges: List[List[int]]
+        :rtype: List[int]
+        """
+        n = len(edges)
+        uf = unionFind(n)
+        hasParent = [False for i in range(n)]
+        adjList = [[] for i in range(n)]
+        criticalEdge = None
+        cycleEdge = None
+        
+        for each in edges:
+            adjList[each[0]-1].append(each[1]-1)
+            if hasParent[each[1]-1]:
+                criticalEdge = each
+            hasParent[each[1]-1] = True
+            if uf.isConnected(each[0]-1, each[1]-1):
+                cycleEdge = each
+            uf.unionSet(each[0]-1, each[1]-1)
+            
+        if not criticalEdge:
+            return cycleEdge
+        
+        visited = []
+        w, v = self.detectCycle(visited, criticalEdge[1]-1, adjList)
+        if w != None:
+            return w+1, v+1
+        else:
+            return criticalEdge
+    
+    def detectCycle(self, visited, node, adjList):
+        visited.append(node)
+        for i in adjList[node]:
+            if i in visited:
+                return node, i
+            w, v = self.detectCycle(visited, i, adjList)
+            if w != None:
+                return w, v
+        return None, None
+        
+        
+        
