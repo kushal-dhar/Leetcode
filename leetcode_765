@@ -1,0 +1,44 @@
+# https://leetcode.com/problems/couples-holding-hands/discuss/117520/Java-union-find-easy-to-understand-5-ms
+class unionFind(object):
+    def __init__(self, n):
+        self.parent = [-1 for i in range(n)]
+        self.rank = [0 for i in range(n)]
+        self.count = n
+        for i in range(i):
+            self.parent[i] = i    
+            
+    def findSet(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.findSet(self.parent[i])
+        return self.parent[i]
+    
+    def unionSet(self, i, j):
+        p1 = self.findSet(i)
+        p2 = self.findSet(j)
+        if p1 != p2:
+            if self.rank[p1] > self.rank[p2]:
+                self.parent[p2] = p1
+            elif self.rank[p2] > self.rank[p1]:
+                self.parent[p1] = p2
+            else:
+                self.parent[p2] = p1
+                self.rank[p1] += 1
+            self.count -= 1
+
+class Solution(object):
+    def minSwapsCouples(self, row):
+        """
+        :type row: List[int]
+        :rtype: int
+        """
+        n = len(row)/2
+        uf = unionFind(n)
+        i = 0
+        while i < len(row):
+            x = row[i]
+            y = row[i+1]
+            uf.unionSet(x/2, y/2)
+            i += 2
+        return n - uf.count
+            
+            
