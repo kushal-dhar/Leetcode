@@ -1,0 +1,78 @@
+class Node(object):
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.prev = None
+        self.next = None
+
+class LRUCache(object):
+
+    def __init__(self, capacity):
+        """
+        :type capacity: int
+        """
+        self.capacity = capacity
+        self.dic = {}
+        self.head = Node(-1, -1)
+        self.tail = Node(-1, -1)
+        self.head.next = self.tail
+        self.tail.prev = self.head        
+        
+
+    def get(self, key):
+        """
+        :type key: int
+        :rtype: int
+        """
+        if key not in self.dic:
+            return -1
+        old = self.dic[key]
+        self.remove(old)
+        #node = Node(key, old.val)
+        self.add(old)
+        self.dic[key] = old
+        return old.val
+        
+
+    def put(self, key, value):
+        """
+        :type key: int
+        :type value: int
+        :rtype: void
+        """
+        if key in self.dic:
+            node = self.dic[key]
+            self.remove(node)
+        node = Node(key, value)
+        self.dic[key] = node
+        self.add(node)
+        if len(self.dic) > self.capacity:
+            old = self.head.next
+            self.remove(old)
+            #print old.val, self.dic
+            del self.dic[old.key]
+        return
+        
+        
+        
+    def add(self, node):
+        prev = self.tail.prev
+        prev.next = node
+        node.prev = prev
+        node.next = self.tail
+        self.tail.prev = node
+        return
+    
+    def remove(self, node):
+        prevNode = node.prev
+        nextNode = node.next
+        prevNode.next = nextNode
+        nextNode.prev = prevNode
+        return
+        
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
