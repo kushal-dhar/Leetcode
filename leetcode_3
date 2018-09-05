@@ -1,0 +1,27 @@
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        dic = collections.defaultdict(int)
+        size = len(s)
+        res = 0
+        i = 0
+        
+        while i < size:
+            if s[i] not in dic:
+                dic[s[i]] = i
+                res = max(res, len(dic))
+            else:
+                minVal = min(dic.values())
+                for key in dic.keys():
+                    if dic[key] >= minVal and dic[key] < dic[s[i]]:
+                        dic.pop(key, None)
+                #del dic[s[i]]
+                dic[s[i]] = i
+                res = max(res, len(dic))
+            i += 1
+
+        return res
+        
