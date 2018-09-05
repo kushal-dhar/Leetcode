@@ -1,0 +1,24 @@
+class Solution(object):
+    def reverse(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        res = 1
+        maxVal = 2**31-1
+        minVal = -1 * 2**31
+        if x < 0:
+            res = -1
+            x *= -1
+        
+        val = 0
+        while x > 0:
+            val *= 10
+            val += x%10
+            x /= 10
+            
+        res *= val
+        if res < minVal or res > maxVal:
+            res = 0
+        return res
+        
