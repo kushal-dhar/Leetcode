@@ -1,0 +1,21 @@
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        res = 0
+        if n == 0:
+            return 1
+        if n != -1:
+            res = self.myPow(x, n/2)
+            if n % 2 != 0:
+                res = res * res * x
+            else:
+                res = res * res            
+        else:
+            res = 1 / x
+
+        return res
+        
