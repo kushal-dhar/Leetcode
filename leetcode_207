@@ -1,0 +1,25 @@
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        prereq = collections.defaultdict(list)
+        for course in prerequisites:
+            prereq[course[0]].append(course[1])
+        
+        independent = [i for i in range(numCourses) if i not in prereq]
+        
+        res = []
+        while independent:
+            course = independent.pop()
+            res.append(course)
+            for key in prereq.keys():
+                if course in prereq[key]:
+                    prereq[key].remove(course)
+                if len(prereq[key]) == 0:
+                    del prereq[key]
+                    independent.append(key)
+        
+        return True if len(res) == numCourses else False
