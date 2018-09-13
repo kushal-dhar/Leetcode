@@ -1,0 +1,27 @@
+class Solution(object):
+    def shortestDistance(self, words, word1, word2):
+        """
+        :type words: List[str]
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        dic = collections.defaultdict(int)
+        dic[word1] = 1
+        dic[word2] = 1
+        
+        value = sys.maxint
+        count = 0
+        for word in words:
+            if word in dic:
+                dic[word] = 0
+                if all(x == 0 for x in dic.values()):
+                    dic[word1] = 1
+                    dic[word2] = 1
+                    dic[word] = 0
+                    value = min(count+1, value)
+                count = 0
+            else:
+                count += 1
+        return value
+        
