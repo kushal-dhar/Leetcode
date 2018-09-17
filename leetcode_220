@@ -1,0 +1,27 @@
+class Solution(object):
+    def containsNearbyAlmostDuplicate(self, nums, k, t):
+        """
+        :type nums: List[int]
+        :type k: int
+        :type t: int
+        :rtype: bool
+        """
+        # https://leetcode.com/problems/contains-duplicate-iii/discuss/61676/Python-solution-with-detailed-explanation
+        if t < 0:
+            return False
+        
+        cache = {}
+        for i, num in enumerate(nums):
+            if i - k > 0:
+                bucket_to_delete = nums[i-k-1]/(t+1)
+                del cache[bucket_to_delete]
+            
+            bucket = num//(t+1)
+            if bucket in cache:
+                return True
+            if bucket-1 in cache and abs(cache[bucket-1] - num) <= t:
+                return True
+            if bucket+1 in cache and abs(cache[bucket+1] - num) <= t:
+                return True
+            cache[bucket] = num
+        return False
