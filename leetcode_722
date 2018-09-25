@@ -1,0 +1,35 @@
+class Solution(object):
+    def removeComments(self, source):
+        """
+        :type source: List[str]
+        :rtype: List[str]
+        """
+        # https://leetcode.com/problems/remove-comments/discuss/109210/Simple-Python-one-pass-with-clear-inline-explanation!!!
+        
+        if not source:
+            return []
+        
+        res = []
+        string = ''
+        multiline_comment = False
+        
+        for line in source:
+            i = 0
+            while i < len(line):
+                char = line[i]
+                if char == '/' and i+1 < len(line) and line[i+1] == '/' and not multiline_comment:
+                    i = len(line)
+                elif char == '/' and i+1 < len(line) and line[i+1] == '*' and not multiline_comment:
+                    multiline_comment = True
+                    i += 1
+                elif char == '*' and i+1 < len(line) and line[i+1] == '/' and multiline_comment:
+                    multiline_comment = False
+                    i += 1
+                elif not multiline_comment:
+                    string += char
+                i += 1
+            if string and not multiline_comment:
+                res.append(string)
+                string = ''
+        return res
+        
