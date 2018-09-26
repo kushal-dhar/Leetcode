@@ -1,0 +1,21 @@
+class Solution(object):
+    def frequencySort(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        dic = collections.defaultdict(int)
+        for char in s:
+            dic[char] += 1
+        
+        heap = []
+        heapq.heapify(heap)
+        for key in dic:
+            heapq.heappush(heap, (-1 * dic[key], key))
+        
+        res = ''
+        while heap:
+            count, char = heapq.heappop(heap)
+            res += char*(-1 * count)
+        return res
+        
