@@ -1,0 +1,32 @@
+class Solution(object):
+    def networkDelayTime(self, times, N, K):
+        """
+        :type times: List[List[int]]
+        :type N: int
+        :type K: int
+        :rtype: int
+        """
+        not_visited = set(range(N))
+        distance = [sys.maxint for i in range(N)]
+        nodes = collections.defaultdict(dict)
+        
+        for src, dest, time in times:
+            nodes[src-1][dest-1] = time
+        
+        distance[K-1] = 0
+        
+        while not_visited:
+            curr = None
+            for dst in not_visited:
+                if curr == None or distance[dst] < distance[curr]:
+                    curr = dst
+            
+            for node in nodes[curr]:
+                total = nodes[curr][node] + distance[curr]
+                if total < distance[node]:
+                    distance[node] = total
+            not_visited.remove(curr)
+        
+        return -1 if sys.maxint in distance else max(distance)
+        
+        
