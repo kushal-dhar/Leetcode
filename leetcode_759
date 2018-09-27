@@ -1,0 +1,29 @@
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def employeeFreeTime(self, schedule):
+        """
+        :type schedule: List[List[Interval]]
+        :rtype: List[Interval]
+        """
+        busyTime = []
+        for time in schedule:
+            busyTime.extend(time)
+        busyTime.sort(key = lambda x:x.start)
+        
+        temp = [busyTime[0]]
+        for i in range(1, len(busyTime)):
+            if busyTime[i].start <= temp[-1].end:
+                temp[-1].end = max(temp[-1].end, busyTime[i].end)
+            else:
+                temp.append(busyTime[i])
+        
+        res = []
+        for i in range(1, len(temp)):
+            interval = Interval(temp[i-1].end, temp[i].start)
+            res.append(interval)
+        return res
