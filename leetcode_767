@@ -1,0 +1,31 @@
+class Solution(object):
+    def reorganizeString(self, S):
+        """
+        :type S: str
+        :rtype: str
+        """
+        # https://leetcode.com/problems/reorganize-string/discuss/130825/Python-solution-with-detailed-explanation
+        count = collections.Counter(S)
+        freq = max(count.values())
+        if 2*freq-1 > len(S):
+            return ""
+        h = []
+        for each in count:
+            h.append((-1*count[each], each))
+        heapq.heapify(h)
+        
+        res = ''
+        while h:
+            count, char = heapq.heappop(h)
+            if not res or res[-1] != char:
+                res += char
+                if count != -1:
+                    heapq.heappush(h, (count+1, char))
+            elif res[-1] == char:
+                newCount, newChar = heapq.heappop(h)
+                res += newChar
+                if newCount != -1:
+                    heapq.heappush(h, (newCount+1, newChar))
+                heapq.heappush(h, (count, char))
+        return res
+        
