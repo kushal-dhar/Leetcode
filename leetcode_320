@@ -1,0 +1,42 @@
+class Solution(object):
+    def generateAbbreviations(self, word):
+        """
+        :type word: str
+        :rtype: List[str]
+        """
+        res = [word]
+        size = len(word)
+        for i in range(size):
+            temp = word[:i] + '1' + word[i+1:]
+            self.dfs(temp, res, i+1, size)
+        return res
+    
+    
+    def dfs(self, word, res, pos, size):
+        res.append(word)
+        #if size == 1:
+        #    return
+        
+        i = pos
+        #print size, word
+        while i < size:
+            #print i, size, word
+            if word[i].isdigit():
+                i += 1
+                continue
+            if i > 0 and word[i-1].isdigit():
+                if i+1 < size and word[i+1].isdigit():
+                    i += 1
+                    continue
+                count = int(word[i-1])
+                count += 1
+                temp = word[:i-1] + str(count) + word[i+1:]
+                self.dfs(temp, res, i, len(temp))
+            elif (i == 0 or (i > 0 and not word[i-1].isdigit())) and (i == size-1 or (i < size and not word[i+1].isdigit())):
+                temp = word[:i] + '1' + word[i+1:]
+                self.dfs(temp, res, i+1, size)
+            i += 1
+        return 
+                
+            
+        
