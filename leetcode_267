@@ -1,0 +1,46 @@
+class Solution(object):
+    def generatePalindromes(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        count = collections.Counter(s)
+        odd = False
+        for key in count:
+            if count[key] % 2 != 0 and odd:
+                return []
+            elif count[key] % 2 != 0:
+                odd = True
+        
+        res = []
+        if odd:
+            for key in count:
+                temp = ''
+                if count[key] > 0 and count[key] % 2 != 0:
+                    temp = key
+                    count[key] -= 1
+                    self.dfs(count, temp, res)
+                    count[key] += 1
+        else:
+            for key in count:
+                temp = ''
+                temp = key+key
+                count[key] -= 2
+                self.dfs(count, temp, res)
+                count[key] += 2
+        return res
+    
+    
+    def dfs(self, count, temp, res):
+        if all(val == 0 for val in count.values()):
+            res.append(temp)
+            return
+        for key in count:
+            if count[key] > 0:
+                string = temp
+                string = key + string + key
+                count[key] -= 2
+                self.dfs(count, string, res)
+                count[key] += 2
+        return
+        
