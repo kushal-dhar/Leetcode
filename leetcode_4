@@ -1,0 +1,59 @@
+class Solution(object):
+    def findMedianSortedArrays(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: float
+        """
+        # https://leetcode.com/problems/median-of-two-sorted-arrays/discuss/2481/Share-my-O(log(min(mn))-solution-with-explanation
+        size1 = len(nums1)
+        size2 = len(nums2)
+        if size2 < size1:
+            nums1, nums2 = nums2, nums1
+            size1, size2 = size2, size1
+        if size2 == 0:
+            return None
+        if size1 == 0:
+            if size2 == 1:
+                return nums2[0]
+            if size2 % 2 != 0:
+                return nums2[size2/2]
+            return (nums2[size2/2-1] + nums2[size2/2])/2.0
+        
+        i_min, i_max = 0, size1
+        i = (i_min + i_max)/2
+        j = (size1 + size2 + 1)/2 - i
+        
+        while i_min <= i_max:
+            i = (i_min + i_max)/2
+            j = (size1 + size2 + 1)/2 - i
+            #print i , j
+            
+            if i < size1 and nums1[i] < nums2[j-1]:
+                i_min = i + 1
+            elif i > 0 and nums2[j] < nums1[i-1]:
+                    i_max = i - 1
+            else:
+                if i == 0:
+                    max_of_left = nums2[j-1]                    
+                elif j == 0:
+                    max_of_left = nums1[i-1]
+                else:
+                    max_of_left = max(nums1[i-1], nums2[j-1])
+                                    
+                if (size1+size2) % 2 == 1:
+                    return max_of_left
+                
+                if i == size1:
+                    min_of_right = nums2[j]
+                elif j == size2:
+                    min_of_right = nums1[i]
+                else:
+                    min_of_right = min(nums1[i], nums2[j])
+                    
+                return (max_of_left + min_of_right)/2.0
+                
+                
+                
+                
+        
