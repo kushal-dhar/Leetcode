@@ -1,0 +1,33 @@
+class Solution(object):
+    def maxAreaOfIsland(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        row = len(grid)
+        if row == 0:
+            return 0
+        col = len(grid[0])
+        
+        res = 0
+        for i in range(row):
+            for j in range(col):
+                if grid[i][j] == 1:
+                    res = max(res, self.getArea(grid, i, j, row, col))
+        return res
+    
+    
+    def getArea(self, grid, rowPos, colPos, row, col):
+        if rowPos < 0 or rowPos >= row or colPos < 0 or colPos >= col:
+            return 0
+        
+        if grid[rowPos][colPos] == 2 or grid[rowPos][colPos] == 0:
+            return 0
+        
+        grid[rowPos][colPos] = 2
+        direction = [[1,0],[-1,0],[0,1],[0,-1]]
+        area = 1
+        for d in direction:
+            area += self.getArea(grid, rowPos+d[0], colPos + d[1], row, col)
+        return area
+        
