@@ -1,0 +1,49 @@
+class Solution(object):
+    def addStrings(self, num1, num2):
+        """
+        :type num1: str
+        :type num2: str
+        :rtype: str
+        """
+        res = ''
+        carry = 0
+        size1 = len(num1)
+        size2 = len(num2)
+        
+        i, j = size1-1, size2-1
+        
+        while i >= 0 and j >= 0:
+            val = int(num1[i]) + int(num2[j]) + carry
+            if val >= 10:
+                val %= 10
+                carry = 1
+            else:
+                carry = 0
+            res = str(val) + res
+            i -= 1
+            j -= 1
+        
+        while i >= 0:
+            val = int(num1[i]) + carry
+            if val >= 10:
+                val %= 10
+                carry = 1
+            else:
+                carry = 0
+            res = str(val) + res
+            i -= 1
+            
+        while j >= 0:
+            val = int(num2[j]) + carry
+            if val >= 10:
+                val %= 10
+                carry = 1
+            else:
+                carry = 0
+            res = str(val) + res
+            j -= 1            
+        
+        if carry == 1:
+            res = '1' + res
+        return res
+            
