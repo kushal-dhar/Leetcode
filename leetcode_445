@@ -1,0 +1,89 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def addTwoNumbers(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        if not l1:
+            return l2
+        if not l2:
+            return l1
+        
+        curr = l1
+        len1 = 0
+        while curr != None:
+            len1 += 1
+            curr = curr.next
+            
+        curr = l2
+        len2 = 0
+        while curr != None:
+            len2 += 1
+            curr = curr.next  
+            
+        if len2 > len1:
+            len1, len2 = len2, len1
+            l1, l2 = l2, l1
+        
+        node1, node2 = l1, l2
+        prev = None
+        while len1 > len2:
+            prev = node1
+            node1 = node1.next            
+            len1 -= 1
+        if prev:
+            prev.next = None
+        
+        head, carry = self.addNumbers(node1, node2)
+        if prev:
+            curr, carry = self.addSingleNode(l1, carry)
+            temp = curr
+            while curr.next:
+                curr = curr.next
+            curr.next = head
+            head = temp
+            
+        if carry:
+            new = ListNode(1)
+            new.next = head
+            head = new               
+        return head
+    
+    
+    def addNumbers(self, list1, list2):
+        if not list1 and not list2:
+            return None, 0
+        
+        node = ListNode(list1.val + list2.val)
+        new, carry = self.addNumbers(list1.next, list2.next)
+        if carry:
+            node.val += 1
+            carry = 0
+        if node.val >= 10:
+            node.val %= 10
+            carry = 1
+        node.next = new
+        return node, carry
+    
+    def addSingleNode(self, list1, carry):
+        if not list1:
+            return None, carry
+        
+        node = ListNode(list1.val)
+        node.next, carry = self.addSingleNode(list1.next, carry)
+        if carry:
+            node.val += 1
+            carry = 0
+        if node.val >= 10:
+            node.val %= 10
+            carry = 1
+        return node, carry
+        
+        
