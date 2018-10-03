@@ -1,0 +1,24 @@
+class Solution(object):
+    def trap(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        # https://leetcode.com/problems/trapping-rain-water/discuss/17526/Very-Concise-Java-Solution-No-Stack-with-Explanations
+        left = 0
+        right = len(height) - 1
+        res = 0
+        maxHeight = 0
+        
+        while left <= right:            
+            if height[left] < height[right]:
+                maxHeight = max(maxHeight, height[left])
+                res += maxHeight - height[left]
+                left += 1
+            else:
+                maxHeight = max(maxHeight, height[right])
+                res += maxHeight - height[right]
+                right -= 1                
+        
+        return res
+                
