@@ -1,0 +1,19 @@
+class Solution(object):
+    def maxProfit(self, prices, fee):
+        """
+        :type prices: List[int]
+        :type fee: int
+        :rtype: int
+        """
+        
+        # https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems
+        
+        T_ik0 = 0
+        T_ik1 = -sys.maxint
+        
+        for cost in prices:
+            old = T_ik0
+            T_ik0 = max(T_ik0, T_ik1 + cost - fee)
+            T_ik1 = max(T_ik1, old - cost)
+        
+        return T_ik0
