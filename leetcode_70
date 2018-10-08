@@ -1,0 +1,18 @@
+class Solution(object):
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        first = 1
+        second = 0        
+        i = 1
+        total = 0
+        
+        while i <= n:
+            total = first + second            
+            second = first
+            first = total
+            i += 1
+        
+        return total
