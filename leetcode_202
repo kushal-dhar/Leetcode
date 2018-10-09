@@ -1,0 +1,26 @@
+class Solution(object):
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        if n == 0:
+            return False
+        if n == 1 or n == 10:
+            return True
+        dic = collections.defaultdict(int)
+        
+        while n != 1:
+            temp = n
+            total = 0
+            while temp > 0:
+                val = temp % 10
+                temp /= 10
+                total += val**2
+            if total in dic:
+                return False
+            n = total
+            dic[n] = 1
+        
+        return True
+        
