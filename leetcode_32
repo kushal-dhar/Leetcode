@@ -1,0 +1,35 @@
+class Solution(object):
+    def longestValidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        # https://leetcode.com/problems/longest-valid-parentheses/discuss/14126/My-O(n)-solution-using-a-stack
+        
+        res = 0
+        stack = []
+        
+        for i, char in enumerate(s):
+            if char == '(':
+                stack.append(i)
+            else:
+                if not stack:
+                    stack.append(i)
+                else:
+                    if s[stack[-1]] == '(':
+                        stack.pop()
+                    else:
+                        stack.append(i)
+        
+        if not stack:
+            return len(s)
+        
+        a = len(s)
+        b = 0
+        while stack:
+            b = stack.pop()
+            res = max(res, a-b-1)
+            a = b
+        res = max(res, a)
+        return res
+        
