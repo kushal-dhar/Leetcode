@@ -1,0 +1,74 @@
+class Solution(object):
+    def calculate(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        signs = []
+        value = []
+        # Remove all whitespace characters
+        s = s.split(' ')
+        s = ''.join(s)
+        
+        i = 0
+        isNeg = False
+        
+        while i < len(s):
+            char = s[i]
+            if char == '(':
+                signs.append(char)
+            elif char == ')':
+                if signs[-1] == '(':
+                    signs.pop()
+                self.evaluate(signs, value)                    
+            elif char == '*' or char == '/' or char == '+':                
+                signs.append(char)
+            elif char == '-':
+                if i == 0 or (s[i-1] != ')' and not s[i-1].isdigit()):
+                    isNeg = True
+                else:
+                    signs.append(char)
+            elif char.isdigit():
+                val = 0
+                while i < len(s):
+                    char = s[i]
+                    if not char.isdigit():
+                        break
+                    val *= 10
+                    val += int(char)
+                    i += 1
+                i -= 1
+                if isNeg:
+                    val *= -1
+                isNeg = False
+                value.append(val)
+                self.evaluate(signs, value)
+                
+            i += 1
+            
+        self.evaluate(signs, value)
+        
+        
+        return value[-1]
+    
+    
+    
+    def evaluate(self, signs, value):
+        while signs and signs[-1] != '(':
+            func = signs.pop()
+            first = value.pop()
+            second = value.pop()            
+            if func == '*':
+                value.append(first * second)
+            elif func == '/':
+                value.append(second/first)
+            elif func == '-':
+                value.append(second - first)
+            elif func == '+':
+                value.append(second + first)        
+                    
+                        
+                    
+                    
+                
+        
