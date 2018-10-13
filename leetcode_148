@@ -1,0 +1,71 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def sortList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if not head:
+            return None
+        
+        head = self.divide(head)
+        return head
+    
+    
+    def divide(self, head):
+        if not head:
+            return None
+        if not head.next:
+            return head
+        
+        slow = head
+        fast = head
+        prev = None
+        while fast and fast.next:
+            prev = slow
+            slow = slow.next
+            if fast.next:
+                fast = fast.next.next
+            else:
+                break
+                
+        prev.next = None
+        
+        #print head.val, slow.val
+        curr = self.divide(head)
+        if not curr:
+            return slow
+        fast = self.divide(slow)
+        if not fast:
+            return curr
+        
+        #print curr.val, fast.val
+        temp = fast
+        prev = None
+        while curr:            
+            node = curr
+            curr = curr.next
+            while temp and temp.val < node.val:
+                prev = temp
+                temp = temp.next
+            if not prev:
+                node.next = temp
+                fast = node
+                temp = fast
+            elif not temp:
+                prev.next = node
+                node.next = None
+                temp = node
+            else:
+                prev.next = node
+                node.next = temp
+                prev = prev.next
+        return fast
+        
+        
+        
