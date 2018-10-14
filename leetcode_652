@@ -1,0 +1,38 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findDuplicateSubtrees(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[TreeNode]
+        """
+        if root == None:
+            return []
+        
+        if not root.left and not root.right:
+            return []
+        
+        res = []
+        self.dp = collections.defaultdict(int)
+        val = self.getDuplicates(root, res)        
+        return res
+    
+    
+    def getDuplicates(self, root, res):
+        if not root:
+            return '#'
+        
+        val = str(root.val)
+        val += self.getDuplicates(root.left, res)
+        val += self.getDuplicates(root.right, res)
+        self.dp[val] += 1
+        if self.dp[val] == 2:
+            res.append(root)
+        return val
+        
+        
