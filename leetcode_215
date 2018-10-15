@@ -5,6 +5,18 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        nums.sort()
-        return nums[-k]
+        queue = []
+        heapq.heapify(queue)
+        size = 0
+        
+        for num in nums:
+            heapq.heappush(queue, num)
+            if len(queue) > k:
+                heapq.heappop(queue)
+            
+        val = heapq.heappop(queue)
+            
+        return val
+            
+            
         
