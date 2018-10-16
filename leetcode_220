@@ -6,22 +6,33 @@ class Solution(object):
         :type t: int
         :rtype: bool
         """
-        # https://leetcode.com/problems/contains-duplicate-iii/discuss/61676/Python-solution-with-detailed-explanation
-        if t < 0:
-            return False
-        
-        cache = {}
+        # https://leetcode.com/problems/contains-duplicate-iii/solution/
+        buckets = {}
         for i, num in enumerate(nums):
-            if i - k > 0:
-                bucket_to_delete = nums[i-k-1]/(t+1)
-                del cache[bucket_to_delete]
+            #Get bucket_id and check if there exists anything in that bucket
+            # if so, return true. otherwise check for elements in neighboring buckets
+            # which can be <= t distance from current num.
+            bucket_id = num / (t+1)
+            if bucket_id in buckets:
+                return True
+            if bucket_id-1 in buckets:
+                val = buckets[bucket_id-1]
+                if num - val <= t:
+                    return True
+            if bucket_id + 1 in buckets:
+                val = buckets[bucket_id+1]
+                if val - num <= t:
+                    return True      
             
-            bucket = num//(t+1)
-            if bucket in cache:
-                return True
-            if bucket-1 in cache and abs(cache[bucket-1] - num) <= t:
-                return True
-            if bucket+1 in cache and abs(cache[bucket+1] - num) <= t:
-                return True
-            cache[bucket] = num
+            # Like a sliding window, delete the elements which are k distance away.
+            buckets[bucket_id] = num
+            if i >= k:
+                delete_id = nums[i-k] / (t+1)
+                del buckets[delete_id]
+                    
+            
+        
         return False
+            
+            
+        
