@@ -5,23 +5,37 @@ class Vector2D(object):
         Initialize your data structure here.
         :type vec2d: List[List[int]]
         """
-        self.arr = []
-        for elem in vec2d:
-            self.arr.extend(elem)
+        self.vec = vec2d[:]
+        self.rowPos = 0
+        self.colPos = 0
+        self.row = len(vec2d)
         
 
     def next(self):
         """
         :rtype: int
         """
-        return self.arr.pop(0)
+        val = self.vec[self.rowPos][self.colPos]
+        self.colPos += 1
+        return val
         
 
     def hasNext(self):
         """
         :rtype: bool
         """
-        return True if self.arr else False
+        if self.rowPos < self.row and self.colPos < len(self.vec[self.rowPos]):
+            return True
+        if self.rowPos == self.row:
+            return False
+        if self.colPos == len(self.vec[self.rowPos]):
+            self.rowPos += 1
+            self.colPos = 0
+            while self.rowPos < self.row and len(self.vec[self.rowPos]) == 0:
+                self.rowPos += 1            
+            if self.rowPos < self.row and self.colPos < len(self.vec[self.rowPos]):
+                return True
+            return False
         
 
 # Your Vector2D object will be instantiated and called as such:
