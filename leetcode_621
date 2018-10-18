@@ -1,0 +1,32 @@
+class Solution(object):
+    def leastInterval(self, tasks, n):
+        """
+        :type tasks: List[str]
+        :type n: int
+        :rtype: int
+        """
+        dic = collections.Counter(tasks)
+        
+        queue = []
+        for key in dic:
+            heapq.heappush(queue, -dic[key])
+        
+        res = 0
+        while queue:
+            #print queue
+            count = 0
+            arr = []
+            for i in range(n+1):
+                if queue:
+                    val = heapq.heappop(queue)
+                    val += 1
+                    arr.append(val)
+                    count += 1
+            
+            for val in arr:
+                if val < 0:
+                    heapq.heappush(queue, val)
+            res += n+1 if queue else count
+        
+        return res
+            
