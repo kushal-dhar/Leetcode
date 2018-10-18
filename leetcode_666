@@ -1,0 +1,34 @@
+class Solution(object):
+    def pathSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        
+        values = collections.defaultdict(int)
+        for num in nums:
+            values[num/10] = num%10
+            
+        self.total = 0    
+        node = nums[0]/10
+        self.getSum(node, 0, values)
+        return self.total
+    
+    def getSum(self, node, sum, values):
+        if node not in values:
+            return
+        
+        sum += values[node]
+        left = (node/10+1)*10 + 2*(node%10)-1
+        right = left + 1
+        
+        if left not in values and right not in values:
+            self.total += sum
+            return
+        
+        self.getSum(left, sum, values)
+        self.getSum(right, sum, values)
+        return
+        
