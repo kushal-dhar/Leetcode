@@ -1,0 +1,39 @@
+class Solution(object):
+    def canIWin(self, maxChoosableInteger, desiredTotal):
+        """
+        :type maxChoosableInteger: int
+        :type desiredTotal: int
+        :rtype: bool
+        """
+        total = ((maxChoosableInteger+1)*maxChoosableInteger)/2
+        if total < desiredTotal:
+            return False
+        if desiredTotal <= 0:
+            return True
+        
+        used = [0 for i in range(maxChoosableInteger)]
+        self.dic = collections.defaultdict(bool)
+        return self.dfs(used, desiredTotal)
+    
+    
+    def dfs(self, used, desiredTotal):
+        if desiredTotal <= 0:
+            return False
+        
+        key = ''.join(str(used))
+        #print key, dic
+        if key in self.dic:
+            return self.dic[key]
+        
+        for i in range(len(used)):
+            if used[i] == 0:
+                used[i] = 1
+                if not self.dfs(used, desiredTotal-(i+1)):
+                    self.dic[key] = True
+                    used[i] = 0
+                    return True
+                used[i] = 0
+                
+        self.dic[key] = False
+        return False
+        
