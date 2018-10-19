@@ -1,0 +1,42 @@
+class ValidWordAbbr(object):
+
+    def __init__(self, dictionary):
+        """
+        :type dictionary: List[str]
+        """
+        self.dic = collections.defaultdict(list)
+        for string in dictionary:
+            if len(string) <= 2:
+                if string not in self.dic[string]:
+                    self.dic[string].append(string)
+            elif len(string) > 2:
+                size = len(string)
+                word = string[:1] + str(size-2) + string[-1:]
+                if string not in self.dic[word]:
+                    self.dic[word].append(string)
+        
+                
+
+    def isUnique(self, word):
+        """
+        :type word: str
+        :rtype: bool
+        """
+        if len(word) <= 2:
+            if word in self.dic:
+                if word not in self.dic[word] or len(self.dic[word]) > 1:
+                    return False
+            return True
+        else:
+            size = len(word)
+            string = word[:1] + str(size-2) + word[-1:]
+            if string in self.dic:
+                if word not in self.dic[string] or len(self.dic[string]) > 1:
+                    return False                
+            return True
+        
+
+
+# Your ValidWordAbbr object will be instantiated and called as such:
+# obj = ValidWordAbbr(dictionary)
+# param_1 = obj.isUnique(word)
