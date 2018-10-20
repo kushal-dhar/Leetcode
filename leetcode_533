@@ -1,0 +1,33 @@
+class Solution(object):
+    def findBlackPixel(self, picture, N):
+        """
+        :type picture: List[List[str]]
+        :type N: int
+        :rtype: int
+        """
+        if not picture:
+            return 0
+        
+        dic = collections.defaultdict(list)
+        row = len(picture)
+        col = len(picture[0])
+        rowCount = [r.count('B') for r in picture]
+        colCount = [0 for i in range(col)]
+        
+        for i in range(row):
+            for j in range(col):
+                if picture[i][j] == 'B':
+                    colCount[j] += 1
+        
+        count = 0
+        for i in range(row):
+            for j in range(col):
+                if picture[i][j] == 'B':
+                    if rowCount[i] == N and colCount[j] == N and all(picture[i] == picture[k] for k in range(len(picture)) if picture[k][j] == 'B'):
+                                                                     
+                        count += 1
+        
+        return count
+        
+        
+        
