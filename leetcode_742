@@ -1,0 +1,53 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findClosestLeaf(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: int
+        """
+        if root.val == k and not root.left and not root.right:
+            return root.val
+        graph = collections.defaultdict(list)
+        self.dfs(root, graph)    
+        queue = []
+        for key in graph:
+            if key.val == k:
+                queue = [key]
+                break
+                
+        visited = []
+        while queue:
+            size = len(queue)
+            while size > 0:
+                node = queue.pop(0)
+                visited.append(node.val)                
+                if not node.left and not node.right:
+                    return node.val
+                for key in graph[node]:
+                    if key and key.val not in visited:
+                        queue.append(key)
+                size -= 1
+        return None
+                
+        
+    
+    def dfs(self, root, graph):
+        if not root:
+            return
+        
+        if root.left:
+            graph[root].append(root.left)
+            graph[root.left].append(root)
+            self.dfs(root.left, graph)
+        if root.right:
+            graph[root].append(root.right)
+            graph[root.right].append(root)
+            self.dfs(root.right, graph)
+        return
