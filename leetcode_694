@@ -1,0 +1,43 @@
+class Solution(object):
+    def numDistinctIslands(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        if not grid:
+            return 0
+        
+        row = len(grid)
+        col = len(grid[0])
+        distinct = {}
+        count = 0
+        direction = [[0,1],[0,-1],[1,0],[-1,0]]
+
+        for i in range(row):
+            for j in range(col):
+                if grid[i][j] == 1:
+                    queue = [(i, j)]
+                else:
+                    continue
+                string = ''
+                    
+                while queue:
+                    rowPos, colPos = queue.pop(0)
+                    grid[rowPos][colPos] = 0
+                    string += str(rowPos-i)+'#'+str(colPos-j)+'#'
+                    for d in direction:
+                        newRow = rowPos + d[0]
+                        newCol = colPos + d[1]
+                        if newRow >= 0 and newRow < row and newCol >= 0 and newCol < col \
+                            and grid[newRow][newCol] == 1:
+                            queue.append((newRow, newCol))
+
+                if string and string not in distinct:
+                    distinct[string] = 1
+                    count += 1
+            i += 1
+            
+        return count
+                        
+                    
+                
