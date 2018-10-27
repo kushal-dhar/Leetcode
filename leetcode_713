@@ -1,0 +1,35 @@
+class Solution(object):
+    def numSubarrayProductLessThanK(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        if not nums or k == 0:
+            return 0
+        
+        left = 0
+        right = 0
+        count = 0
+        total = nums[0]
+        
+        while right < len(nums):
+            if total < k:
+                count += right - left + 1
+                right += 1
+                if right < len(nums):
+                    total *= nums[right]
+            if total >= k:
+                if left == right:
+                    right += 1
+                    if right < len(nums):
+                        total = nums[right]
+                    left += 1
+                else:
+                    total /= nums[left]
+                    left += 1
+
+                
+        return count
+            
+        
