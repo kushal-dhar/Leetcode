@@ -8,21 +8,21 @@ class Solution(object):
         if not nums:
             return 0
         
-        dic = collections.defaultdict(list)
+        dic = collections.defaultdict(int)
         total = 0
         res = 0
         
         for i, num in enumerate(nums):
             total += num            
-            dic[total].append(i)
+            dic[total] += 1
             #print i, total, dic, total - k                
             if total == k:
                 res += 1
             if total - k in dic:
                 if k != 0:
-                    res += len(dic[total-k])
-                elif k == 0 and len(dic[total-k]) > 1:
-                    res += len(dic[total-k]) -1
+                    res += dic[total-k]
+                elif k == 0 and dic[total-k] > 1:
+                    res += dic[total-k] -1
         
         return res
         
