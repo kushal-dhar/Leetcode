@@ -1,0 +1,23 @@
+class Solution(object):
+    def kthSmallest(self, matrix, k):
+        """
+        :type matrix: List[List[int]]
+        :type k: int
+        :rtype: int
+        """
+        
+        row = len(matrix)
+        col = len(matrix[0])
+        
+        minHeap = []
+        for i in range(row):
+            heapq.heappush(minHeap, [matrix[i][0], (i, 0)])
+        
+        while k > 1:
+            rowPos, colPos = heapq.heappop(minHeap)[1]
+            colPos += 1
+            if colPos < col:
+                heapq.heappush(minHeap, [matrix[rowPos][colPos], (rowPos, colPos)])
+            k -= 1
+        
+        return heapq.heappop(minHeap)[0]
