@@ -1,0 +1,16 @@
+class Solution(object):
+    def reconstructQueue(self, people):
+        """
+        :type people: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        # https://leetcode.com/problems/queue-reconstruction-by-height/discuss/167308/Python-solution
+        people.sort(key = lambda x: (-x[0], x[1]))
+        
+        res = []
+        for each in people:
+            pos = each[1]
+            res.insert(pos, each)
+        
+        return res
+        
