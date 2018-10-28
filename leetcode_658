@@ -1,0 +1,38 @@
+class Solution(object):
+    def findClosestElements(self, nums, k, x):
+        """
+        :type arr: List[int]
+        :type k: int
+        :type x: int
+        :rtype: List[int]
+        """
+        i = 0
+        for i, num in enumerate(nums):
+            if num == x:
+                break
+            elif num > x:
+                break
+        
+        left = i -1
+        right = i
+        res = []
+        while k > 0:
+            if left >= 0 and right < len(nums):
+                if x - nums[left] <= nums[right] - x:
+                    res.insert(0, nums[left])
+                    left -= 1
+                else:
+                    res.append(nums[right])
+                    right += 1
+            elif right < len(nums):
+                res.append(nums[right])
+                right += 1
+            else:
+                res.insert(0, nums[left])
+                left -= 1
+            k -= 1
+        
+        #res.sort()
+        return res
+                    
+        
