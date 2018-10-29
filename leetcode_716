@@ -1,0 +1,78 @@
+class MaxStack(object):
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.stack = []
+        self.maxStack = []
+        #self.maxVal = -sys.maxint
+        
+
+    def push(self, x):
+        """
+        :type x: int
+        :rtype: void
+        """
+        if self.maxStack:
+            if x > self.maxStack[-1]:
+                self.maxStack.append(x)
+            else:
+                self.maxStack.append(self.maxStack[-1])
+        else:
+            self.maxStack.append(x)
+        self.stack.append(x)
+        
+
+    def pop(self):
+        """
+        :rtype: int
+        """
+        self.maxStack.pop()
+        return self.stack.pop()
+        
+
+    def top(self):
+        """
+        :rtype: int
+        """
+        return self.stack[-1]
+        
+
+    def peekMax(self):
+        """
+        :rtype: int
+        """
+        return self.maxStack[-1]
+        
+
+    def popMax(self):
+        """
+        :rtype: int
+        """
+        buff = []
+        while self.stack[-1] != self.maxStack[-1]:
+            buff.append(self.stack.pop())
+            self.maxStack.pop()
+        val = self.stack.pop()
+        self.maxStack.pop()
+        maxVal = -sys.maxint
+        if self.maxStack:
+            maxVal = self.maxStack[-1]
+        while buff:
+            if buff[-1] > maxVal:
+                maxVal = buff[-1]
+            self.stack.append(buff.pop())
+            self.maxStack.append(maxVal)
+        #self.maxVal = maxVal
+        return val
+        
+
+
+# Your MaxStack object will be instantiated and called as such:
+# obj = MaxStack()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.peekMax()
+# param_5 = obj.popMax()
