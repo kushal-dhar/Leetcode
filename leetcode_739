@@ -1,0 +1,25 @@
+class Solution(object):
+    def dailyTemperatures(self, T):
+        """
+        :type T: List[int]
+        :rtype: List[int]
+        """
+        #Same as Next Greater element I
+        # https://leetcode.com/problems/next-greater-element-i/discuss/183740/Python-solution
+        if not T:
+            return []
+        
+        stack = []
+        res = []
+        
+        for i in range(len(T)-1, -1, -1):
+            while stack and stack[-1][0] <= T[i]:
+                stack.pop()
+            if not stack:
+                res.insert(0, 0)
+            else:
+                res.insert(0, stack[-1][1]-i)
+            stack.append([T[i], i])
+        
+        return res
+        
