@@ -1,0 +1,26 @@
+class Solution(object):
+    def nextGreaterElement(self, findNums, nums):
+        """
+        :type findNums: List[int]
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        if not findNums:
+            return []
+        
+        stack = []
+        dic = {}
+        
+        for i in range(len(nums)-1, -1, -1):
+            while stack and stack[-1] < nums[i]:
+                stack.pop()
+            if not stack:
+                dic[nums[i]] = -1
+            else:
+                dic[nums[i]] = stack[-1]
+            stack.append(nums[i])
+        
+        res = []
+        for num in findNums:
+            res.append(dic[num])
+        return res
